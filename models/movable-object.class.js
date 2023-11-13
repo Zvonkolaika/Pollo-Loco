@@ -28,7 +28,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    //charecter.isColliding(chicken)
+    //character.isColliding(chicken)
 
     isColliding(mo){
         return this.x + this.width > mo.x &&
@@ -37,8 +37,17 @@ class MovableObject extends DrawableObject {
         this.y < mo.y + mo.height;
     }
 
-    hit(){
-        this.energy -= 5;
+    isCollidingWith(otherObject) {
+        return (
+            this.x + this.width > otherObject.x &&
+            this.y + this.height > otherObject.y &&
+            this.x < otherObject.x + otherObject.width &&
+            this.y < otherObject.y + otherObject.height
+        );
+    }
+
+    hit(hitvalue){
+        this.energy -= hitvalue;
         if(this.energy < 0){
             this.energy = 0;
         }
@@ -48,7 +57,7 @@ class MovableObject extends DrawableObject {
     }
 
     isDead(){
-        return this.energy == 0;
+        return this.energy === 0;
     }
 
     isHurt(){
@@ -66,11 +75,22 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimation(images){
+        if (images && images.length > 0) {
+            let i = this.currentImage % images.length;
+            let path = images[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+            return path; // Return the current image path
+        }
+        return null; // Return null or any default value if the images array is empty or undefined
+    }
+
+   /*  playAnimation(images){
         let i = this.currentImage % images.length; // let i = 0 % 6; => 0 rest 0; 1 % 6; => 0, rest 1; 7 % 6 => 1 rest 1 => i = 1
         // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5...
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-    }
+    } */
 
 } 

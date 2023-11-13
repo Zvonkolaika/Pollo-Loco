@@ -41,7 +41,7 @@ class Endboss extends MovableObject{
 
 
     constructor(){
-        super().loadImage(this.IMAGES_WALKING[0]);
+        super();
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
@@ -49,29 +49,58 @@ class Endboss extends MovableObject{
         this.x = 2500;
         this.animate();
     }
-
+ 
     animate(){
-
         setInterval(() => {
-            if(this.isDead()){
-                this.playAnimation(this.IMAGES_DEAD);
+            let isHurt = this.isHurt();
+            let path = '';
+            if(isHurt){
+                path = this.playAnimation(this.IMAGES_HURTING);
+               
+            }
+
+            else {
+               
+                path = this.playAnimation(this.IMAGES_WALKING); 
+            
+            }
+            //console.log("hurt " + isHurt + " path " + path);
+    
+        }, 100);
+
+        // setInterval(() => {
+        //    // this.moveLeft();
+        //     this.playAnimation(this.IMAGES_HURTING);
+
+        // }, 1000 / 60); 
+
+    }
+
+
+        
+
+      /*   setInterval(() => {
+            if(this.isHurt()){
+                console.log(this.isHurt());
+                this.playAnimation(this.IMAGES_HURTING);
+                console.log(this.playAnimation(this.IMAGES_HURTING));
             }
             //else if(){
              //   this.playAnimation(this.IMAGES_ATTACKING);
            // }
 
-            else if(this.isHurt()){
-                this.playAnimation(this.IMAGES_HURTING);
+            else if(this.isDead()){
+                this.playAnimation(this.IMAGES_DEAD);
             }
           
              else {
                 this.playAnimation(this.IMAGES_WALKING); 
             }
-        }, 200);   
+        }, 200);  */  
     
     }
 
-}
+
 
 
     
