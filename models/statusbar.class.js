@@ -8,7 +8,8 @@ class StatusBar extends DrawableObject {
         this.height = 50;
     }
 
-    resolveImageIndex(){
+
+     resolveImageIndex(){
         if(this.percentage == 100){
             return 5;
         }
@@ -27,6 +28,11 @@ class StatusBar extends DrawableObject {
         else {
             return 0;
         }
+       
+    } 
+
+    moveTo(x){
+        this.x = x;
     }
 }
 

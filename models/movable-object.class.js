@@ -5,6 +5,9 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    maxBottles = 5;
+    bottles = 0;
+    coins = 0;
     
 
     applyGravity(){
@@ -56,6 +59,28 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    collectBottle() {
+        if (this.bottles < this.maxBottles) {
+            this.bottles++;
+           // this.statusBarBottle.setPercentage(this.bottles);
+           // console.log('Collected a bottle! Total bottles:', this.bottles);
+        }
+    }
+
+    collectCoin() {
+            this.coins++;
+        }
+
+    wasteBottle(){
+        if(this.bottles > 0){
+            this.bottles--;
+            return true;
+        }
+        else{
+            false;
+        }
+    }
+
     isDead(){
         return this.energy === 0;
     }
@@ -72,6 +97,10 @@ class MovableObject extends DrawableObject {
 
     moveRight() {
         this.x += this.speed;
+    }
+
+    getPosition(){
+        return this.x;
     }
 
     playAnimation(images){

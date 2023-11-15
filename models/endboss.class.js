@@ -2,7 +2,8 @@ class Endboss extends MovableObject{
     height = 400;
     width = 280;
     y = 50;
-   
+    speed = 1;
+    attacking = false;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -41,64 +42,55 @@ class Endboss extends MovableObject{
 
 
     constructor(){
-        super();
+        super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACKING);
         this.x = 2500;
+      
         this.animate();
     }
- 
-    animate(){
-        setInterval(() => {
-            let isHurt = this.isHurt();
-            let path = '';
-            if(isHurt){
-                path = this.playAnimation(this.IMAGES_HURTING);
-               
-            }
 
-            else {
-               
-                path = this.playAnimation(this.IMAGES_WALKING); 
-            
-            }
-            //console.log("hurt " + isHurt + " path " + path);
-    
-        }, 100);
-
-        // setInterval(() => {
-        //    // this.moveLeft();
-        //     this.playAnimation(this.IMAGES_HURTING);
-
-        // }, 1000 / 60); 
-
-    }
-
-
-        
-
-      /*   setInterval(() => {
-            if(this.isHurt()){
-                console.log(this.isHurt());
-                this.playAnimation(this.IMAGES_HURTING);
-                console.log(this.playAnimation(this.IMAGES_HURTING));
-            }
-            //else if(){
-             //   this.playAnimation(this.IMAGES_ATTACKING);
-           // }
-
-            else if(this.isDead()){
-                this.playAnimation(this.IMAGES_DEAD);
-            }
+        animate() {
           
-             else {
-                this.playAnimation(this.IMAGES_WALKING); 
-            }
-        }, 200);  */  
+           setInterval(() => {
+                let isHurt = this.isHurt();
+                let isDead = this.isDead();
+               
+                if(isHurt) {
+                    this.attacking = true;
+                    this.playAnimation(this.IMAGES_HURTING);
+        
+                    /* setTimeout(() => {
+                        // Stop hurting animation and start moving/attacking
+                        this.stopAnimation();
+                        this.moveAndAttack();
+                    }, 1000);  */ // Adjust the timeout value as needed
+                } else if (isDead) {
+                    this.playAnimation(this.IMAGES_DEAD);
+                }
+                
+                else if(this.attacking){
+                    this.moveLeft();
+                    
+                    this.playAnimation(this.IMAGES_ATTACKING);
+                }
+                else {  
+                    this.playAnimation(this.IMAGES_WALKING); 
+                }
+            }, 100)
+
+        }
+
     
     }
+
+
+
+
+    
+    
 
 
 
