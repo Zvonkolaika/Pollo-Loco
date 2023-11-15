@@ -37,7 +37,7 @@ class World {
             this.checkCollectItems();
             this.checkCollectCoins();
           
-        }, 500);
+        }, 100);
 
         setInterval(() => {
             this.allignEndbossStatusbar();
@@ -57,15 +57,43 @@ class World {
     }
 
     checkCollisions(){
-        this.level.enemies.forEach(enemy => {
-            if(this.character.isColliding(enemy)){
-                const hitValue = 5; // You can adjust this based on your game logic
-                this.character.hit(hitValue);
-              
-               this.statusBarHealth.setPercentage(this.character.energy);
-            }
-        });
+    
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            const enemy = this.level.enemies[i];
+          
+            if(!this.character.isHurt()){
+                
+                if(!enemy.isDead() && this.character.isColliding(enemy)){
+                    if (enemy instanceof Chicken || enemy instanceof Smallchicken) {
+                        if(this.character.isAboveGround()){
+                            this.handleJumpingCollision(enemy);
+                        }
+                    }
+                    else{
+                        const hitValue = 5; 
+                        this.character.hit(hitValue);
+                        this.statusBarHealth.setPercentage(this.character.energy);
+                    }
+                }   
+            } 
+        }   
+       
     }
+
+    handleJumpingCollision(enemy) {
+
+            this.character.jump();
+            enemy.energy = 0;
+        
+            setTimeout(() => {
+                const index = this.level.enemies.indexOf(enemy);
+                if(index != -1) {
+                    console.log("Remove dead enemy ");
+                    this.level.enemies.splice(index, 1);
+                }
+            }, 1000);
+    }
+    
 
     checkThrowableCollisions() {
         this.level.enemies.forEach(enemy => {
@@ -137,7 +165,6 @@ class World {
         
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-      
        
         this.addToMap(this.statusBarEndboss);
 
@@ -167,6 +194,7 @@ class World {
         requestAnimationFrame(function(){
             self.draw()
         });
+      
     }
 
     addObjectsToMap(objects){

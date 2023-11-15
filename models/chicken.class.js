@@ -9,7 +9,7 @@ class Chicken extends MovableObject {
     ];
 
     IMAGES_DEAD = [
-    'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+        '../img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ]
 
     chicken_sound = new Audio('/audio/chicken.wav');
@@ -18,35 +18,37 @@ class Chicken extends MovableObject {
         super().loadImage('../img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.x = 600 + Math.random() * 500;
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_DEAD);
         this.speed = 0.55 + Math.random() * 0.5;
-        this.animate();
-       
+        this.animate();  
     }
 
     animate(){
 
-       /*  if(this.isDead){
-            this.playAnimation(this.IMAGES_DEAD);
-        } */
+        setInterval(() => {
+            if(!this.isDead()){
 
-     //   else{
-            
-             setInterval(() => {
-                 this.moveLeft();
+                this.moveLeft();
+            }
      
-             }, 1000 / 60); 
+    }, 1000 / 60); 
           
-             setInterval(() => {
-                 this.playAnimation(this.IMAGES_WALKING);
-     
+        setInterval(() => {
+            let isDead = this.isDead();
+
+            if(isDead){
+                this.playAnimation(this.IMAGES_DEAD);
+            }
+            else{
+                this.playAnimation(this.IMAGES_WALKING);
+            }
                /*   let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 3; => 0 rest 0; 1 % 3; => 0, rest 1; 4 % 3 => 1 rest 1 => i = 1
                  // i = 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2...
                  let path = this.IMAGES_WALKING[i];
                  this.img = this.imageCache[path];
                  this.currentImage++; */
      
-                // this.chicken_sound.play(); 
-                 
+                // this.chicken_sound.play();       
             }, 200);
 
       //  }

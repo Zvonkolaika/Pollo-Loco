@@ -35,29 +35,34 @@ class MovableObject extends DrawableObject {
 
     isColliding(mo){
         return this.x + this.width > mo.x &&
-        this.y + this.height > mo.y &&
-        this.x < mo.x &&
-        this.y < mo.y + mo.height;
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
+      //  return this.isCollidingWith(mo);
     }
 
     isCollidingWith(otherObject) {
-        return (
+        return this.isColliding(otherObject);
+      /*   return (
             this.x + this.width > otherObject.x &&
             this.y + this.height > otherObject.y &&
             this.x < otherObject.x + otherObject.width &&
             this.y < otherObject.y + otherObject.height
-        );
+        ); */
     }
 
-    hit(hitvalue){
-        this.energy -= hitvalue;
-        if(this.energy < 0){
+    hit(hitValue) {
+        
+        this.energy -= hitValue;
+        
+        if (this.energy < 0) {
             this.energy = 0;
-        }
-        else{
+        } else {
             this.lastHit = new Date().getTime();
         }
+    
     }
+    
 
     collectBottle() {
         if (this.bottles < this.maxBottles) {
