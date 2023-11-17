@@ -8,6 +8,7 @@ class MovableObject extends DrawableObject {
     maxBottles = 5;
     bottles = 0;
     coins = 0;
+    lastAction = new Date().getTime();
     
 
     applyGravity(){
@@ -21,6 +22,7 @@ class MovableObject extends DrawableObject {
 
     jump(){
         this.speedY = 30;
+        this.lastAction = new Date().getTime();
     }
 
     isAboveGround(){
@@ -98,10 +100,17 @@ class MovableObject extends DrawableObject {
 
     moveLeft(){
         this.x -= this.speed;
+        this.lastAction = new Date().getTime();
     }
 
     moveRight() {
         this.x += this.speed;
+        this.lastAction = new Date().getTime();
+    }
+
+    moveOut(){
+        this.x -= this.speed;
+        this.y += this.speed;
     }
 
     getPosition(){
@@ -119,12 +128,12 @@ class MovableObject extends DrawableObject {
         return null; // Return null or any default value if the images array is empty or undefined
     }
 
-   /*  playAnimation(images){
-        let i = this.currentImage % images.length; // let i = 0 % 6; => 0 rest 0; 1 % 6; => 0, rest 1; 7 % 6 => 1 rest 1 => i = 1
-        // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5...
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
-    } */
+    isAsleep() {
+        let timePassed = new Date().getTime() - this.lastAction; 
+        //the time passed since the last action.
+        timePassed = timePassed / 1000;
+        // checks if the time passed since the last action is greater than 5 seconds.
+        return timePassed > 5;
+    }
 
-} 
+}  

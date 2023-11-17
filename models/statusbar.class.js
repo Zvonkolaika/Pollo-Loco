@@ -3,7 +3,7 @@ class StatusBar extends DrawableObject {
     constructor(){
         super();
       
-        this.x = 40;
+        this.x = 30;
         this.width = 180; 
         this.height = 50;
     }

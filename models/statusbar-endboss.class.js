@@ -1,8 +1,8 @@
 class statusBarEndboss extends StatusBar {
     speed = 0.5;
-    y = 40;
+    y = 0;
 
-    ICON_IMAGE = 'img/7_statusbars/3_icons/icon_health_endboss.png.png';
+   // ICON_IMAGE = 'img/7_statusbars/3_icons/icon_health_endboss.png.png';
 
     IMAGES_HEALTH = [
        
@@ -22,11 +22,13 @@ class statusBarEndboss extends StatusBar {
     constructor(){
 
         super();
-        this.loadImage(this.ICON_IMAGE);
+        
         this.loadImages(this.IMAGES_HEALTH);
         this.x = 2500;
        
         this.setPercentage(100);
+
+
     
     }
    
@@ -37,5 +39,7 @@ class statusBarEndboss extends StatusBar {
         this.img = this.imageCache[path];
    
     }
+
+
 
     }

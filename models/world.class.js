@@ -9,6 +9,7 @@ class World {
     statusBarBottle = new StatusBarBottle();
     statusBarCoin = new StatusBarCoin();
     statusBarEndboss = new statusBarEndboss();
+    statusBarEndbossHeart = new statusBarEndbossHeart();
     throwableObject = [];
     bottles = [];
     coins = [];
@@ -48,10 +49,13 @@ class World {
         
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
-                if(enemy.attacking){
+                if(enemy.attacking && enemy.x > 400 && enemy.y == 50){
                     this.statusBarEndboss.moveTo(enemy.getPosition());
-                    
+                    this.statusBarEndbossHeart.moveTo(enemy.getPosition() - 6);  
                 }
+              /* else if(this.character.x < 2000){
+                this.statusBarEndboss.x = 2500;
+              } */
             }
         }); 
     }
@@ -60,28 +64,26 @@ class World {
     
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-          
-            if(!this.character.isHurt()){
-                
-                if(!enemy.isDead() && this.character.isColliding(enemy)){
-                    if (enemy instanceof Chicken || enemy instanceof Smallchicken) {
-                        if(this.character.isAboveGround()){
-                            this.handleJumpingCollision(enemy);
-                        }
+            if(this.character.isColliding(enemy) && !this.character.isHurt() && !enemy.isDead()){
+                if(this.character.isAboveGround()){
+                    this.handleJumpingCollision(enemy);
                     }
-                    else{
-                        const hitValue = 5; 
-                        this.character.hit(hitValue);
-                        this.statusBarHealth.setPercentage(this.character.energy);
-                    }
-                }   
-            } 
-        }   
-       
+                else{
+                    this.characterHitting();
+                }
+            }   
+        }
+    }
+     
+
+    characterHitting(){
+        const hitValue = 5; 
+        this.character.hit(hitValue);
+        this.statusBarHealth.setPercentage(this.character.energy);
     }
 
     handleJumpingCollision(enemy) {
-
+        if (enemy instanceof Chicken || enemy instanceof Smallchicken){
             this.character.jump();
             enemy.energy = 0;
         
@@ -92,6 +94,8 @@ class World {
                     this.level.enemies.splice(index, 1);
                 }
             }, 1000);
+        }
+     
     }
     
 
@@ -156,6 +160,7 @@ class World {
                 this.throwableObject.push(bottle);
                 this.statusBarBottle.setPercentage(this.character.bottles * 20); 
             }
+            this.lastAction = new Date().getTime();
         }
     }
 
@@ -167,12 +172,14 @@ class World {
         this.addObjectsToMap(this.level.clouds);
        
         this.addToMap(this.statusBarEndboss);
+        this.addToMap(this.statusBarEndbossHeart);
 
         this.ctx.translate(-this.camera_x, 0); // 
         // ------------ Space for fixed objects ---------
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
+        
        
         this.ctx.translate(this.camera_x, 0); 
 

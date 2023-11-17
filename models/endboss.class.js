@@ -2,7 +2,7 @@ class Endboss extends MovableObject{
     height = 400;
     width = 280;
     y = 50;
-    speed = 1;
+    speed = 5;
     attacking = false;
 
     IMAGES_WALKING = [
@@ -68,7 +68,9 @@ class Endboss extends MovableObject{
                         this.moveAndAttack();
                     }, 1000);  */ // Adjust the timeout value as needed
                 } else if (isDead) {
+                    this.speed = 30;
                     this.playAnimation(this.IMAGES_DEAD);
+                    this.moveOut();
                 }
                 
                 else if(this.attacking){
