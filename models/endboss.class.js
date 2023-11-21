@@ -4,6 +4,7 @@ class Endboss extends MovableObject{
     y = 50;
     speed = 5;
     attacking = false;
+    endboss_attacking_sound = new Audio('audio/battle-background.wav');
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -71,12 +72,18 @@ class Endboss extends MovableObject{
                     this.speed = 30;
                     this.playAnimation(this.IMAGES_DEAD);
                     this.moveOut();
+                    this.endboss_attacking_sound.pause();
+                    this.endboss_attacking_sound.currentTime = 0;
+                
                 }
                 
                 else if(this.attacking){
                     this.moveLeft();
                     
                     this.playAnimation(this.IMAGES_ATTACKING);
+                 
+                    this.endboss_attacking_sound.play();
+                    
                 }
                 else {  
                     this.playAnimation(this.IMAGES_WALKING); 
