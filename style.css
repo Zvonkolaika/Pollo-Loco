@@ -4,7 +4,7 @@ body{
     justify-content: center;
     align-items: center;
     margin: 0;
-    background-image: url(img/icons_game/desert.jpg);
+    background-image: url(img/icons_game/desert3.jpg);
     /* img/5_background/first_half_background.png */
     background-position: center;
     background-repeat: no-repeat;
@@ -21,6 +21,7 @@ h1{
     font-size: 4rem;
     letter-spacing: 0.5rem;
     margin: 1rem;
+    text-shadow: 2px 4px 2px rgb(118 161 118);
    
 }
 
@@ -248,6 +249,147 @@ canvas{
 @media only screen and (max-width: 932px) and (orientation: landscape){
     #mobile-buttons {
         display: block;
+    }
+}
+
+/* Smartphones ------------------- */
+
+@media only screen and (max-width: 720px){
+    canvas {
+        width: 100%;
+    }
+}
+
+/* Smartphones ------------------- */
+
+@media only screen and (max-height: 593px){
+    h1 {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 480px){
+    canvas {
+        height: 100vh;
+    }
+}
+
+@media only screen and (max-height: 470px){
+
+    .play-button {
+        bottom: 360px;
+    }
+
+    .full-screen-button {
+        bottom: 384px;
+    }
+
+    .question-button {
+        bottom: 384px;
+    }
+}
+
+
+@media only screen and (max-height: 450px){
+
+    .play-button {
+        bottom: 344px;
+    }
+
+    .full-screen-button {
+        bottom: 358px;
+    }
+
+    .question-button {
+        bottom: 358px;
+    }
+
+    .button {
+        height: 65px;
+    }
+}
+
+@media only screen and (max-height: 435px){
+
+    .play-button {
+        bottom: 328px;
+    }
+
+    .full-screen-button {
+        bottom: 336px;
+    }
+
+    .question-button {
+        bottom: 336px;
+    }
+
+    .button {
+        height: 65px !important;
+    }
+
+    .additional {
+        height: 50px !important;
+    }
+}
+
+@media only screen and (max-height: 410px){
+
+    .play-button {
+        bottom: 312px;
+    }
+
+    .full-screen-button {
+        bottom: 320px;
+    }
+
+    .question-button {
+        bottom: 320px;
+    }
+
+}
+
+@media only screen and (max-height: 385px){
+
+    .play-button {
+        bottom: 286px;
+    }
+
+    .full-screen-button {
+        bottom: 294px;
+    }
+
+    .question-button {
+        bottom: 294px;
+    }
+}
+
+@media only screen and (max-height: 360px){
+
+    .play-button {
+        bottom: 36px;
+    }
+
+    .additional {
+        height: 30px !important;
+    }
+
+    .full-screen-button {
+        bottom: 270px;
+    }
+
+    .question-button {
+        bottom: 270px;
+    }
+}
+
+@media only screen and (max-height: 320px){
+
+    .full-screen-button {
+        bottom: 238px;
+    }
+
+    .question-button {
+        bottom: 238px;
     }
 }
 

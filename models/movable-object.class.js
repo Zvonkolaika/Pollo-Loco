@@ -1,3 +1,5 @@
+const groundLevel = 150;
+
 class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
@@ -9,16 +11,24 @@ class MovableObject extends DrawableObject {
     bottles = 0;
     coins = 0;
     lastAction = new Date().getTime();
+    visibleHeight = this.height;
+    onPlatform = 0;
     
 
-    applyGravity(){
+   applyGravity(){
         setInterval(() => {
-            if(this.isAboveGround() || this.speedY > 0){
+            if((this.isAboveGround() || this.speedY > 0)
+                && !this.onPlatform){
             this.y -= this.speedY;
+               /*  if(this.y < groundLevel && this.speed){
+                    this.y = 150;
+                }/*  */
+                
             this.speedY -= this.acceleration;
         }
         }, 1000 / 25); 
-    }
+    } 
+
 
     jump(){
         this.speedY = 30;
@@ -135,6 +145,11 @@ class MovableObject extends DrawableObject {
         timePassed = timePassed / 1000;
         // checks if the time passed since the last action is greater than 5 seconds.
         return timePassed > 5;
+    }
+
+    stopSound(sound){
+        sound.pause();
+        sound.currentTime = 0;
     }
 
 }  

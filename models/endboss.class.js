@@ -48,10 +48,12 @@ class Endboss extends MovableObject{
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACKING);
-        this.x = 2500;
+        this.x = 3800;
       
         this.animate();
     }
+
+    
 
         animate() {
           
@@ -72,8 +74,7 @@ class Endboss extends MovableObject{
                     this.speed = 30;
                     this.playAnimation(this.IMAGES_DEAD);
                     this.moveOut();
-                    this.endboss_attacking_sound.pause();
-                    this.endboss_attacking_sound.currentTime = 0;
+                    this.stopSound(this.endboss_attacking_sound);
                 
                 }
                 
@@ -91,6 +92,8 @@ class Endboss extends MovableObject{
             }, 100)
 
         }
+
+
 
     
     }

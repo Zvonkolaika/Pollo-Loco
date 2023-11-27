@@ -24,14 +24,12 @@ class World {
     endboss_hit_sound = new Audio('audio/endboss-hit.wav');
     win_sound = new Audio('audio/win.wav');
     
-
-   
-
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.game_sound.volume = 0.2;
+        this.game_sound.loop = true;
         this.chicken_dead_sound.volume = 0.5;
       
         this.draw();
@@ -39,7 +37,9 @@ class World {
         this.run();
         this.game_sound.play();
 
+      
     }
+
 
     setWorld(){
         this.character.world = this;
@@ -47,7 +47,9 @@ class World {
 
     run(){
         setInterval(() => {
-            this.checkCollisions(); 
+            this.checkPlatformEdges(this.character);
+            this.checkCollisions(this.level.enemies);
+            this.checkCollisions(this.level.platforms);
             this.checkThrowObjects();
             this.checkThrowableCollisions();
             this.checkCollectItems();
@@ -75,19 +77,30 @@ class World {
         }); 
     }
 
-    checkCollisions(){
+    checkCollisions(obstacles){
     
-        for (let i = 0; i < this.level.enemies.length; i++) {
-            const enemy = this.level.enemies[i];
-            if(this.character.isColliding(enemy) && !this.character.isHurt() && !enemy.isDead()){
+        for (let i = 0; i < obstacles.length; i++) {
+            const obstacle = obstacles[i];
+            if(this.character.isColliding(obstacle) && !this.character.isHurt() && !obstacle.isDead()){
                 if(this.character.isAboveGround()){
-                    this.handleJumpingCollision(enemy);
+                    this.handleJumpingCollision(obstacle);
                 }
-                else{ 
+                if( obstacle instanceof Chicken || obstacle instanceof Smallchicken || obstacle instanceof Endboss) { 
                     this.characterHitting();
                     this.gameLost();
                 }
             }   
+        }
+    }
+
+    checkPlatformEdges(character){
+        if(character.onPlatform){
+            if(!(character.x >= character.onPlatform.x 
+                && character.x <= character.onPlatform.x + character.onPlatform.width)){
+                    character.onPlatform = 0;
+                    character.y = 50; //ground level
+                }
+
         }
     }
      
@@ -108,13 +121,44 @@ class World {
 
     gameOver(){
 
-            document.getElementById('game-win-screen').classList.remove('d-none');
-            document.getElementById('restart-button').classList.remove('d-none');   
+        document.getElementById('game-win-screen').classList.remove('d-none');
+        document.getElementById('restart-button').classList.remove('d-none');   
 
     } 
-
+     
 
     handleJumpingCollision(enemy) {
+       
+        if (enemy instanceof Platform) {
+            const platformTop = enemy.y - enemy.visibleHeight;
+            console.log("Charachter y : " + this.character.y + "platform new y : " + platformTop + "onPlatform: " + this.character.onPlatform);
+            // Check if the character is above the platform and falling
+            if (
+                this.character.y - this.character.height <= platformTop &&
+                this.character.speedY > 0 &&
+                !this.character.onPlatform
+            ) {
+                console.log("Jumping onto platform!");
+                this.character.onPlatform = enemy;
+                this.character.y = platformTop - this.character.height + 1; // Adjust the position
+                this.character.speedY = 0; // Stop falling
+           /*  } else if (this.character.onPlatform === enemy) {
+                // If the character was on the platform but is no longer above it, reset onPlatform
+                this.character.onPlatform = null; */
+            }
+        }
+
+  
+      /*  if (enemy instanceof Platform){
+            const new_y = enemy.height + enemy.visibleHeight;
+            console.log("Charachter y : " + this.character.y + "platform new y : " + new_y);
+            if(this.character.y == new_y){
+                this.character.onPlatform = enemy;
+                this.character.y = new_y; 
+                console.log("###Charachter y : " + this.character.y + "platform new y : " + new_y);
+            }
+
+        }  */
         if (enemy instanceof Chicken || enemy instanceof Smallchicken){
             this.character.jump();
             enemy.energy = 0;
@@ -143,7 +187,11 @@ class World {
             
                     // Check collisions with the endboss
                     if (throwableObject.isCollidingWith(enemy)) {
-                        const hitValue = 20
+                        console.log("Endboss is hurt ");
+                      
+                        const hitValue = 20;
+                        throwableObject.hit(hitValue);
+                        console.log("throwableobject is hitting " + throwableObject.hit(hitValue));
                         enemy.hit(hitValue);
                         this.endboss_hit_sound.play();
                        
@@ -212,7 +260,7 @@ class World {
 
         if(this.keyboard.D){
             this.character.lastAction = new Date().getTime();
-            this.bottle_throw_sound.play();
+          
             if(this.character.wasteBottle()) {
                 let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
                 this.throwableObject.push(bottle);
@@ -227,6 +275,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.platforms);
         this.addObjectsToMap(this.level.clouds);
        
         this.addToMap(this.statusBarEndboss);

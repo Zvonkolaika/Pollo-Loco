@@ -2,6 +2,7 @@ class Character extends MovableObject {
     y = 50;
     height = 280;
     speed = 10;
+    
   
     IMAGES_WALKING = [
         '../img/2_character_pepe/2_walk/W-21.png',
@@ -87,8 +88,7 @@ class Character extends MovableObject {
         this.applyGravity();
         this.animate();
         this.jumping_sound.volume = 0.3;
-      
-    
+        this.snoring_sound.volume = 1;
     }
 
     animate(){
@@ -99,6 +99,11 @@ class Character extends MovableObject {
                this.moveRight();
                this.otherDirection = false;
                //this.walking_sound.play();
+
+                 // Check if the character is on a platform, then update its y position
+                if (this.onPlatform) {
+                    this.y = this.onPlatform.y - this.height; 
+                }
             }
 
             if(this.world.keyboard.LEFT && this.x > 0){
@@ -106,6 +111,11 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                
                // this.walking_sound.play();
+
+                  // Check if the character is on a platform, then update its y position
+            if (this.onPlatform) {
+                this.y = this.onPlatform.y - this.height; 
+            }
             }
            
             if(this.world.keyboard.SPACE && !this.isAboveGround() || this.world.keyboard.UP && !this.isAboveGround()){
@@ -120,8 +130,7 @@ class Character extends MovableObject {
         setInterval(() => {
             if(this.isDead()){
                 this.playAnimation(this.IMAGES_DEAD);
-                this.world.game_sound.pause();
-                this.world.game_sound.currentTime = 0;
+                this.stopSound(world.game_sound);
                 this.game_lost_sound.play();
             }
             else if(this.isHurt()){
@@ -129,12 +138,13 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURTING);
                 this.hurting_sound.play();
             }
-            else if(this.isAboveGround()) {
+            else if(this.isAboveGround() && !this.onPlatform) {
                 this.playAnimation(this.IMAGES_JUMPING);
                 this.jumping_sound.play();
             }
             else if(this.characterIsMoving()) {
                 this.playAnimation(this.IMAGES_WALKING);
+                this.stopSound(this.snoring_sound);
                 this.walking_sound.play();
             }
             else if(this.isAsleep()) {
@@ -143,24 +153,11 @@ class Character extends MovableObject {
             }
             else {
                 this.playAnimation(this.IMAGES_STAYING);
-                this.walking_sound.pause();
-                this.walking_sound.currentTime = 0;
+                this.stopSound(this.walking_sound);
                 } 
             }, 70);    
     }
 
-    stopSounds(){
-        this.walking_sound.pause();
-        this.walking_sound.currentTime = 0;
-        this.jumping_sound.pause();
-        this.jumping_sound.currentTime = 0;
-        this.snoring_sound.pause();
-        this.snoring_sound.currentTime = 0;
-        this.hurting_sound.pause();
-        this.hurting_sound.currentTime = 0;
-        this.game_lost_sound.pause();
-        this.game_lost_sound.currentTime = 0;
-    }
 
     characterIsMoving(){
         return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
