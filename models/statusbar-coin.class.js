@@ -12,7 +12,7 @@ class StatusBarCoin extends StatusBar {
         super();
         this.loadImages(this.IMAGES_COIN);
         this.y = 120;
-        this.setPercentage(100);
+        this.setPercentage(0);
     }
 
     setPercentage(percentage){

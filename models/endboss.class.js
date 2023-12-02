@@ -48,55 +48,60 @@ class Endboss extends MovableObject{
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACKING);
-        this.x = 3800;
+        this.x = 3765;
       
         this.animate();
     }
 
     
 
-        animate() {
-          
-           setInterval(() => {
-                let isHurt = this.isHurt();
-                let isDead = this.isDead();
-               
-                if(isHurt) {
-                    this.attacking = true;
-                    this.playAnimation(this.IMAGES_HURTING);
-        
-                    /* setTimeout(() => {
-                        // Stop hurting animation and start moving/attacking
-                        this.stopAnimation();
-                        this.moveAndAttack();
-                    }, 1000);  */ // Adjust the timeout value as needed
-                } else if (isDead) {
-                    this.speed = 30;
-                    this.playAnimation(this.IMAGES_DEAD);
-                    this.moveOut();
-                    this.stopSound(this.endboss_attacking_sound);
-                
-                }
-                
-                else if(this.attacking){
-                    this.moveLeft();
+    animate() {
+        this.endbossAnimation();
+    }
+
+    endbossAnimation(){
+        this.startAnimation(() => {
+            let isHurt = this.isHurt();
+            let isDead = this.isDead();
+                   
+            if(isHurt) {
+                this.attacking = true;
+                this.playAnimation(this.IMAGES_HURTING);
+                        /* setTimeout(() => {
+                            // Stop hurting animation and start moving/attacking
+                            this.stopAnimation();
+                            this.moveAndAttack();
+                        }, 1000);  */ // Adjust the timeout value as needed
+            } else if (isDead) {
+                this.speed = 30;
+                this.playAnimation(this.IMAGES_DEAD);
+                this.moveOut();
+                this.stopSound(this.endboss_attacking_sound);
+               /*  setTimeout(() => {
+                            
+                    this.stopEndbossInterval();
+                        }, 5000); */
+                    }
                     
-                    this.playAnimation(this.IMAGES_ATTACKING);
-                 
-                    this.endboss_attacking_sound.play();
-                    
-                }
-                else {  
-                    this.playAnimation(this.IMAGES_WALKING); 
-                }
-            }, 100)
+            else if(this.attacking){
+                this.moveLeft();
+                        
+                this.playAnimation(this.IMAGES_ATTACKING);
+                     
+                this.endboss_attacking_sound.play();
+                        
+            }
+            else {  
+                this.playAnimation(this.IMAGES_WALKING); 
+                    }
+        }, 100)
 
-        }
+    }
 
-
+    }
 
     
-    }
+
 
 
 

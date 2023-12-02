@@ -9,7 +9,7 @@ class statusBarEndbossHeart extends StatusBar {
     constructor(){
 
         super().loadImage('img/7_statusbars/3_icons/icon_health_endboss.png');
-        this.x = 2494;
+        this.x = 3794;
     }
    
     }

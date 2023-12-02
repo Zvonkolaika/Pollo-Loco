@@ -1,16 +1,22 @@
 class Platform extends MovableObject{
-    y = 300;
     height = 140;
     width = 340;
-    
 
-
-    constructor() {
+  offset = {
+        top: 50,
+        left: 110,
+        right: 90,
+        bottom: 80
+    };
+     
+    constructor(path, x, y) {
        
         // Add any additional properties or methods specific to platforms
-        super().loadImage('img/icons_game/plarform3.png');
-        this.x = 1000;
-        this.visibleHeight = 10;
+        super().loadImage(path);
+        this.x = x;
+        this.y = y;
+        
+        this.visibleHeight = this.height / 2;
       
     }
 

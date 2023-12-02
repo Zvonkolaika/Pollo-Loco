@@ -1,4 +1,5 @@
 class World {
+   
     character = new Character();
     level = level1;
     canvas;
@@ -10,10 +11,17 @@ class World {
     statusBarCoin = new StatusBarCoin();
     statusBarEndboss = new statusBarEndboss();
     statusBarEndbossHeart = new statusBarEndbossHeart();
+   // coin = new Coin();
+    //bottle = new Bottle();
     throwableObject = [];
     bottles = [];
     coins = [];
-
+    adjustingWidthRight = 150;
+    adjustingWidthLeft = 55;
+    animationID = [];
+   // gameIsRunning = false;
+     
+  
     
     game_sound = new Audio('/audio/funny-country-loop-ver.wav');
     
@@ -46,20 +54,41 @@ class World {
     }
 
     run(){
-        setInterval(() => {
+        this.startAnimation(() => {
             this.checkPlatformEdges(this.character);
             this.checkCollisions(this.level.enemies);
             this.checkCollisions(this.level.platforms);
             this.checkThrowObjects();
-            this.checkThrowableCollisions();
+         
             this.checkCollectItems();
             this.checkCollectCoins();
           
         }, 100);
 
-        setInterval(() => {
+        this.startAnimation(() => {
             this.allignEndbossStatusbar();
         }, 100);
+
+        this.startAnimation(() => {
+            this.checkThrowableCollisions();
+        }, 500);
+
+      //  this.gameIsRunning = true;
+    }
+
+    startAnimation(fn, interval){
+        this.animationID.push(setInterval(fn, interval));
+    }
+
+
+    stopAnimation() {
+        console.log("clearInterval W");
+        this.animationID.forEach(ID => {
+            
+            clearInterval(ID);
+        });
+        this.gameIsRunning = false;
+
     }
 
     allignEndbossStatusbar(){
@@ -81,12 +110,25 @@ class World {
     
         for (let i = 0; i < obstacles.length; i++) {
             const obstacle = obstacles[i];
-            if(this.character.isColliding(obstacle) && !this.character.isHurt() && !obstacle.isDead()){
+            if(this.character.isColliding(obstacle) 
+                    && !this.character.isHurt() 
+                    && !obstacle.isDead() 
+                    && !this.character.isDead()){
                 if(this.character.isAboveGround()){
                     this.handleJumpingCollision(obstacle);
                 }
-                if( obstacle instanceof Chicken || obstacle instanceof Smallchicken || obstacle instanceof Endboss) { 
-                    this.characterHitting();
+                else if( obstacle instanceof Chicken || obstacle instanceof Smallchicken) { 
+                    console.log("Charackter is hitting");
+                    let hitValue = 10;
+                    this.characterHitting(hitValue);
+                    this.gameLost();
+                }
+
+                else if(obstacle instanceof Endboss) { 
+                    console.log("Charackter is hitting");
+                    let hitValue = 20;
+                    this.characterHitting(hitValue);
+                  
                     this.gameLost();
                 }
             }   
@@ -95,18 +137,34 @@ class World {
 
     checkPlatformEdges(character){
         if(character.onPlatform){
-            if(!(character.x >= character.onPlatform.x 
-                && character.x <= character.onPlatform.x + character.onPlatform.width)){
+            let platform = character.onPlatform;
+            if((character.x > platform.x 
+                + platform.width - platform.offset.right - character.offset.left
+                // + this.adjustingWidthLeft
+                || character.x < platform.x 
+               //+ platform.width 
+              //  + platform.offset.left 
+                + character.offset.left 
+              //  - this.adjustingWidthRight
+                )){
                     character.onPlatform = 0;
-                    character.y = 50; //ground level
+                    //character.y = groundLevelCharacter;  //ground level
+                }
+            
+                else{
+                    console.log("character y " + character.y + " platform y " + platform.y + " platform.visibleHeight " + platform.visibleHeight);
+                    character.y = platform.y 
+                                + platform.offset.top
+                                + character.offset.bottom
+                                - character.height;
                 }
 
         }
     }
      
 
-    characterHitting(){
-        const hitValue = 5; 
+    characterHitting(hitValue){
+       
         this.character.hit(hitValue);
         this.statusBarHealth.setPercentage(this.character.energy);
     }
@@ -114,7 +172,7 @@ class World {
     gameLost(){
         if (this.character.energy == 0) {
             document.getElementById('game-over-screen').classList.remove('d-none');
-            document.getElementById('restart-button').classList.remove('d-none');   
+            document.getElementById('restart-button-lost').classList.remove('d-none');   
         }
 
     }
@@ -122,7 +180,7 @@ class World {
     gameOver(){
 
         document.getElementById('game-win-screen').classList.remove('d-none');
-        document.getElementById('restart-button').classList.remove('d-none');   
+        document.getElementById('restart-button-win').classList.remove('d-none');   
 
     } 
      
@@ -131,17 +189,25 @@ class World {
        
         if (enemy instanceof Platform) {
             const platformTop = enemy.y - enemy.visibleHeight;
-            console.log("Charachter y : " + this.character.y + "platform new y : " + platformTop + "onPlatform: " + this.character.onPlatform);
+            console.log("*Charachter y : " + this.character.y + "platform new y : " + platformTop + "onPlatform: " + this.character.onPlatform);
             // Check if the character is above the platform and falling
             if (
                 this.character.y - this.character.height <= platformTop &&
-                this.character.speedY > 0 &&
+                this.character.speedY < 0 &&
                 !this.character.onPlatform
             ) {
                 console.log("Jumping onto platform!");
                 this.character.onPlatform = enemy;
-                this.character.y = platformTop - this.character.height + 1; // Adjust the position
+
+                this.character.y = this.character.onPlatform.y 
+                                    + this.character.onPlatform.offset.top
+                                    + this.character.offset.bottom
+                                    - this.character.height 
+                                   // - this.character.onPlatform.visibleHeight;
+                //platformTop - this.character.height; // Adjust the position
                 this.character.speedY = 0; // Stop falling
+              
+              
            /*  } else if (this.character.onPlatform === enemy) {
                 // If the character was on the platform but is no longer above it, reset onPlatform
                 this.character.onPlatform = null; */
@@ -191,9 +257,10 @@ class World {
                       
                         const hitValue = 20;
                         throwableObject.hit(hitValue);
-                        console.log("throwableobject is hitting " + throwableObject.hit(hitValue));
+                       
                         enemy.hit(hitValue);
-                        this.endboss_hit_sound.play();
+                     
+                       this.endboss_hit_sound.play();
                        
                         this.statusBarEndboss.setPercentage(enemy.energy);
 
@@ -208,7 +275,7 @@ class World {
                              this.gameOver();
                            
                              
-                         }, 3000);
+                         }, 5000);
                             console.log("Endboss is dead ");
                           
                             }
@@ -248,7 +315,7 @@ class World {
            if(this.character.isColliding(coin)){
                this.character.collectCoin();
                this.coin_collect_sound.play();
-               this.statusBarCoin.setPercentage(this.character.coins * 5);
+               this.statusBarCoin.setPercentage(this.character.coins * 4);
                break;
             }
         }

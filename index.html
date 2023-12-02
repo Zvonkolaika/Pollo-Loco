@@ -12,8 +12,8 @@
   
 </head>
 <body>
-     
     <h1>El pollo loco</h1>
+    <div id="fullscreen">
     <div id="main-container">
         <div id="content" class="border-radius">
           
@@ -60,7 +60,7 @@
                     <img onclick="openCloseAboutGame()" class="button game" src="/img/icons_game/fragezeichen.png">    
                 </div>
                 <div id="full-screen-game-button" class="game-full-screen-button">
-                    <img class="button game" src="/img/icons_game/full-screen.png">    
+                    <img onclick="fullScreen()" class="button game" src="/img/icons_game/full-screen.png">    
                 </div>
                 <div id="on-sound" class="game-sound-button">
                     <img onclick="offSound()" class="button game" src="/img/icons_game/lautsprecher.png">    
@@ -71,7 +71,7 @@
             </div>
       
             <div id="full-screen-button" class="full-screen-button">
-                <img class="button additional" src="/img/icons_game/full-screen.png">    
+                <img onclick="fullScreen()" class="button additional" src="/img/icons_game/full-screen.png">
             </div>
 
             <div id="mobile-buttons" class="d-none">
@@ -91,18 +91,20 @@
             <div id="game-over-screen" class="game-over-screen d-none">
                 <img src="img/9_intro_outro_screens/game_over/you lost.png">
             </div>
+            <div id="restart-button-lost" class="restart d-none">
+                <img onclick="replayLost()" src="img/icons_game/restart.png" alt="">
+            </div>
             <div id="game-win-screen" class="game-win-screen d-none">
                 <img src="img/9_intro_outro_screens/game_over/game over.png">
             </div>
-            <div id="restart-button" class="restart d-none">
-                <img onclick="start()" src="img/icons_game/restart.png" alt="">
+            <div id="restart-button-win" class="restart d-none">
+                <img onclick="replayWin()" src="img/icons_game/restart.png" alt="">
             </div>
+           
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
     </div> 
-
-
-  
+</div> 
 </body>
 <script src="models/drawable-object.class.js"></script>
 <script src="models/movable-object.class.js"></script>

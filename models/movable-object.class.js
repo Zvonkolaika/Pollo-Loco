@@ -1,10 +1,12 @@
 const groundLevel = 150;
+const groundLevelCharacter = 50;
+const platformLevel = 35;
 
 class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 3;
     energy = 100;
     lastHit = 0;
     maxBottles = 5;
@@ -13,19 +15,22 @@ class MovableObject extends DrawableObject {
     lastAction = new Date().getTime();
     visibleHeight = this.height;
     onPlatform = 0;
+    animationID = [];
+
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
     
 
    applyGravity(){
-        setInterval(() => {
-            if((this.isAboveGround() || this.speedY > 0)
-                && !this.onPlatform){
-            this.y -= this.speedY;
-               /*  if(this.y < groundLevel && this.speed){
-                    this.y = 150;
-                }/*  */
-                
-            this.speedY -= this.acceleration;
-        }
+        this.startAnimation(() => {
+            if((this.isAboveGround() || this.speedY > 0)){
+                this.y -= this.speedY; // this.y = this.y - this.speedY
+                this.speedY -= this.acceleration;
+            }
         }, 1000 / 25); 
     } 
 
@@ -33,24 +38,35 @@ class MovableObject extends DrawableObject {
     jump(){
         this.speedY = 30;
         this.lastAction = new Date().getTime();
-        
+        this.onPlatform = 0;
     }
 
     isAboveGround(){
         if (this instanceof ThrowableObject){ // Throwable objects should always fall 
             return true;
-        } else {
+        } 
+ 
+        else 
+        {
+            if(this.onPlatform){
+                return false;
+            }
             return this.y < 150;
         }
+    }
+
+    isJumping(){
+        return this.isAboveGround() && this.speedY > 0;
+
     }
 
     //character.isColliding(chicken)
 
     isColliding(mo){
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
+        return this.x + this.width - this.offset.right > mo.x  + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
       //  return this.isCollidingWith(mo);
     }
 
@@ -152,4 +168,21 @@ class MovableObject extends DrawableObject {
         sound.currentTime = 0;
     }
 
-}  
+
+
+    startAnimation(fn, interval){
+        this.animationID.push(setInterval(fn, interval));
+    }
+
+    stopAnimation() {
+        console.log("clearInterval MO");
+        this.animationID.forEach(ID => {
+            
+            clearInterval(ID);
+        });
+
+    }
+       
+}
+
+

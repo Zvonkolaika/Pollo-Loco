@@ -31,14 +31,14 @@ class ThrowableObject extends MovableObject{
 }
 
     throw(){ 
-        this.speedY = 30;
+        this.speedY = 40;
         this.applyGravity();
-        setInterval(() => {
+        this.startAnimation(() => {
             let isHurt = this.isHurt();
 
         if(isHurt){
                 this.playAnimation(this.IMAGES_BOTLLE_SPLASH);
-                this.x += 25;
+                this.x += 35;
                 this.bottle_throw_sound.play();
             } 
            else{
@@ -51,21 +51,3 @@ class ThrowableObject extends MovableObject{
         
     }
 }
-
-/*     speed = 10;
-    speedX = 30;
-    speedY = 20;
-    x = 420;
-    y = 320;
-    height = 100;
-    width = 90; */
-
-    //    IMAGES_BOTTLE = [
-    //  'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
-     //   'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
-   // ]
-
-   // constructor(){
-    //    super().loadImage(this.IMAGES_BOTTLE[0]);
-    //    this.loadImages(this.IMAGES_BOTTLE);
-   // }

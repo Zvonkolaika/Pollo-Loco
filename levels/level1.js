@@ -1,4 +1,8 @@
-const level1 = new Level(
+let level1;
+
+function initLevel(){
+
+level1 = new Level(
 [
     new Chicken(400),
     new Chicken(900),
@@ -62,14 +66,13 @@ const level1 = new Level(
 ],
 
 [
-    new Bottle(700),
-    new Bottle(800),
-    new Bottle(1500),
-    new Bottle(1600),
-    new Bottle(1750),
-    new Bottle(1850),
-    new Bottle(2050),
-    new Bottle(2400)
+    new Bottle(700, 370),
+    new Bottle(1400, 70),
+    new Bottle(1450, 70),
+    new Bottle(1750, 120),
+    new Bottle(1850, 370),
+    new Bottle(2400, 370),
+    new Bottle(2800, 370),
 ],
 
 [
@@ -79,25 +82,31 @@ const level1 = new Level(
     new Coin(850, 240),
     new Coin(900, 280),
     new Coin(950, 320),
-    new Coin(1000, 360),
-    new Coin(1200, 200),
-    new Coin(1250, 200),
+    new Coin(1250, 100),
     new Coin(1350, 320),
-    new Coin(1400, 320),
     new Coin(1450, 360),
     new Coin(1500, 360),
     new Coin(1550, 240),
     new Coin(1600, 240),
-    new Coin(1650, 360),
-    new Coin(1750, 360),
-    new Coin(1800, 360),
-    new Coin(2100, 360),
-    new Coin(2400, 320)
+    new Coin(1800, 100),
+    new Coin(1850, 100),
+    new Coin(2400, 320),
+    new Coin(2800, 320),
+    new Coin(2850, 280),
+    new Coin(2900, 240),
+    new Coin(2950, 200),
+    new Coin(3000, 240),
+    new Coin(3050, 280),
+    new Coin(3100, 320),
+    new Coin(3300, 200),
+    new Coin(3350, 200),
+    new Coin(3450, 280),
 ],
 
 [
-    new Platform(),
-    new Platform()
+    new Platform('img/icons_game/plarform3.png', 1000, 250),
+    new Platform('img/icons_game/plarform3.png', 1250, 100),
+    new Platform('img/icons_game/plarform3.png', 1500, 270)
 ]
-
 )
+}

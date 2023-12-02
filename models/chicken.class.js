@@ -27,15 +27,14 @@ class Chicken extends MovableObject {
 
     animate(){
 
-        setInterval(() => {
-            if(!this.isDead()){
+        this.chickenMoveLeft();
 
-                this.moveLeft();
-            }
-     
-    }, 1000 / 60); 
-          
-        setInterval(() => {
+        this.chickenAnimation();
+    
+    }
+
+    chickenAnimation(){
+        this.startAnimation(() => {
             let isDead = this.isDead();
 
             if(isDead){
@@ -43,8 +42,19 @@ class Chicken extends MovableObject {
             }
             else{
                 this.playAnimation(this.IMAGES_WALKING);
-                
             }
+        }, 200);
+    }
+
+    chickenMoveLeft(){
+        this.startAnimation(() => {
+            if(!this.isDead()){
+
+                this.moveLeft();
+            }
+        }, 1000 / 60);
+    }
+        
                /*   let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 3; => 0 rest 0; 1 % 3; => 0, rest 1; 4 % 3 => 1 rest 1 => i = 1
                  // i = 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2...
                  let path = this.IMAGES_WALKING[i];
@@ -52,10 +62,6 @@ class Chicken extends MovableObject {
                  this.currentImage++; */
      
                 // this.chicken_sound.play();       
-            }, 200);
-
-
       //  }
-    }
-    }
+}
    

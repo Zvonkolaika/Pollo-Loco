@@ -69,6 +69,13 @@ class Character extends MovableObject {
 
     world;
 
+    offset = {
+        top: 190,
+        left: 30,
+        right: 40,
+        bottom: 30
+    };
+
   
     walking_sound = new Audio('/audio/running.wav');
     jumping_sound = new Audio('audio/jump.wav');
@@ -89,56 +96,68 @@ class Character extends MovableObject {
         this.animate();
         this.jumping_sound.volume = 0.3;
         this.snoring_sound.volume = 1;
+       
     }
 
     animate(){
-       
-        setInterval(() => {
-          //this.walking_sound.pause();
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
-               this.moveRight();
-               this.otherDirection = false;
-               //this.walking_sound.play();
+        this.characterKeyboardInterval();
+        this.characterAnimationInterval();
+    }
 
-                 // Check if the character is on a platform, then update its y position
-                if (this.onPlatform) {
-                    this.y = this.onPlatform.y - this.height; 
-                }
-            }
+    characterKeyboardInterval(){
 
-            if(this.world.keyboard.LEFT && this.x > 0){
-                this.moveLeft();
-                this.otherDirection = true;
-               
-               // this.walking_sound.play();
+        this.startAnimation(() => {
+            //this.walking_sound.pause();
+              if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
+                 this.moveRight();
+                 this.otherDirection = false;
+                 //this.walking_sound.play();
+  
+              }
+  
+              if(this.world.keyboard.LEFT && this.x > 0){
+                  this.moveLeft();
+                  this.otherDirection = true;
+                 
+                 // this.walking_sound.play();
+  
+              }
+             
+              if(this.world.keyboard.SPACE && !this.isAboveGround()
+              || this.world.keyboard.UP && !this.isAboveGround())
+  
+              {
+                  this.jump();
+                //  this.jumping_sound.play();
+              }
+            
+  
+              this.world.camera_x = -this.x + 100;
+  
+          }, 1000 / 60);
+    }
 
-                  // Check if the character is on a platform, then update its y position
-            if (this.onPlatform) {
-                this.y = this.onPlatform.y - this.height; 
-            }
-            }
-           
-            if(this.world.keyboard.SPACE && !this.isAboveGround() || this.world.keyboard.UP && !this.isAboveGround()){
-                this.jump();
-              //  this.jumping_sound.play();
-            }
-
-            this.world.camera_x = -this.x + 100;
-
-        }, 1000 / 60);
-
-        setInterval(() => {
+    characterAnimationInterval(){
+        
+        this.startAnimation(() => {
             if(this.isDead()){
                 this.playAnimation(this.IMAGES_DEAD);
                 this.stopSound(world.game_sound);
                 this.game_lost_sound.play();
+                
+                setTimeout(() => {
+                    this.stopSound(this.game_lost_sound);
+            
+                   
+                }, 5000);
+              
             }
             else if(this.isHurt()){
         
                 this.playAnimation(this.IMAGES_HURTING);
                 this.hurting_sound.play();
             }
-            else if(this.isAboveGround() && !this.onPlatform) {
+            else if(this.isJumping()) {
                 this.playAnimation(this.IMAGES_JUMPING);
                 this.jumping_sound.play();
             }
@@ -155,7 +174,7 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_STAYING);
                 this.stopSound(this.walking_sound);
                 } 
-            }, 70);    
+            }, 70);   
     }
 
 
@@ -180,4 +199,5 @@ class Character extends MovableObject {
         this.HURT_SOUND.muted = false;
         this.GAME_LOST_SOUND.muted = false;
     }
+
 }

@@ -23,14 +23,22 @@ class Smallchicken extends MovableObject {
     }
 
     animate(){
-       
-        setInterval(() => {
+       this.chickenSmallMoveLeft();
+       this.chickenSmallAnimation();
+      
+    }
+
+    chickenSmallMoveLeft(){
+        this.startAnimation(() => {
             if(!this.isDead()){
             this.moveLeft();
             }
         }, 1000 / 60); 
+    }
+            
      
-        setInterval(() => {
+    chickenSmallAnimation(){
+        this.startAnimation(() => {
             let isDead = this.isDead();
             if(isDead){
                 this.playAnimation(this.IMAGES_DEAD);
@@ -40,6 +48,6 @@ class Smallchicken extends MovableObject {
             }
             }, 200);
     
-    }
-    }
+    }  
+}
    

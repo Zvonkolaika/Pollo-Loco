@@ -1,24 +1,49 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let gameIsRunning = false;
 
 function start() {
+  
+    initLevel();
+    init();
+   
     hideFirstScreen();
     hideFullInfo();
-    init();
-    hideGameOver();
+    gameIsRunning = true;
+   
+  
 }
+
+function replayLost(){
+        hideGameOverLost();
+        initLevel();
+        hideFirstScreen();
+        hideFullInfo(); 
+        init();
+
+}
+
+function replayWin(){
+    hideGameOverWin();
+    initLevel(); 
+    hideFirstScreen();
+    hideFullInfo();  
+    init();
+}
+
 
 function init(){
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     hideGameButtons();
     hideMobileButtons();
-    hideGameOver();
     mobileButtonTouchEvents();
+   
   
    
     console.log('My character is ', world.character); // world['character']
+    console.log('My platform is ', world.level.platforms); // world['character']
     //console.log('My enemies are ', world.level.enemies);
 }
 
@@ -58,10 +83,18 @@ function onSound(){
     document.getElementById('off-sound').classList.add('d-none');
 }
 
-function hideGameOver(){
-    document.getElementById('game-over-screen').classList.add('d-none');
+function hideGameOverWin(){
     document.getElementById('game-win-screen').classList.add('d-none');
-    document.getElementById('restart-button').classList.add('d-none');   
+    document.getElementById('restart-button-win').classList.add('d-none'); 
+    stopWinIntervals(); 
+  
+}
+
+function hideGameOverLost(){
+    document.getElementById('game-over-screen').classList.add('d-none');
+    document.getElementById('restart-button-lost').classList.add('d-none'); 
+    console.log("stopWinIntervals()");
+    stopWinIntervals(); 
 }
 
 window.addEventListener('keydown', (event) => {
@@ -88,6 +121,10 @@ window.addEventListener('keydown', (event) => {
     if (event.keyCode == 68) {
         keyboard.D = true;
     }
+
+    if (event.keyCode == 27) {
+        keyboard.ESC = true;
+    }
 })
 
 window.addEventListener('keyup', (event) => {
@@ -113,6 +150,10 @@ window.addEventListener('keyup', (event) => {
 
     if (event.keyCode == 68) {
         keyboard.D = false;
+    }
+
+    if (event.keyCode == 27) {
+        keyboard.ESC = false;
     }
 })
 
@@ -160,4 +201,111 @@ function mobileButtonTouchEvents() {
         keyboard.D = false;
     });
 }
+
+function stopWinIntervals() { 
+    stopAllCloudsIntervals();
+    stopAllCoinsIntervals();
+    stopAllBottlesIntervals();
+    stopCharacterAnimation();
+    stopAllEnemiesIntervals();
+    stopWorldIntervals();
+}
+
+function stopWorldIntervals(){
+    world.stopAnimation();
+}
+
+/**
+ * Stops the character animation interval.
+ */
+function stopCharacterAnimation() {
+    world.character.stopAnimation();
+}
+
+function stopAllEnemiesIntervals() {
+    
+    world.level.enemies.forEach(enemie => {
+        enemie.stopAnimation();        
+    });
+}
+
+/**
+ * Stops all intervals related to cloud objects.
+ */
+function stopAllCloudsIntervals() {
+    world.level.clouds.forEach((cloud) => {
+        
+        cloud.stopAnimation();
+    });
+}
+
+/**
+ * Stops all intervals related to coin objects.
+ */
+function stopAllBottlesIntervals() {
+    world.level.bottles.forEach((bottle) => bottle.stopAnimation());
+}
+
+function stopAllCoinsIntervals() {
+    world.level.coins.forEach((coin) => coin.stopAnimation());
+}
+
+function fullScreen(){
+    let fullScreen = document.getElementById('fullscreen');
+    enterFullscreen(fullScreen);
+    if(gameIsRunning){
+
+        document.getElementById('full-screen-game-button').classList.add('d-none');
+    }
+    else{
+
+        document.getElementById('full-screen-button').classList.add('d-none');
+    }
+}
+
+function showFullScreenButton(){
+    if(gameIsRunning){
+
+        document.getElementById('full-screen-game-button').classList.remove('d-none');
+    }
+    else{
+        console.log("fullscreen mode");
+        document.getElementById('full-screen-button').classList.remove('d-none');
+    }
+
+}
+
+function enterFullscreen(fullScreen) {
+    
+    if (fullScreen.requestFullscreen) {
+      fullScreen.requestFullscreen();
+    } else if (fullScreen.webkitRequestFullscreen) { /* Safari */
+      fullScreen.webkitRequestFullscreen();
+    } else if (fullScreen.msRequestFullscreen) { /* IE11 */
+      fullScreen.msRequestFullscreen();
+    }
+  }
+
+  document.addEventListener("fullscreenchange", function () {
+    if (document.fullscreenElement === null) {
+    showFullScreenButton();
+    }
+  });
+
+  /* Close fullscreen */
+function closeFullscreen() {
+  
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+  }
+
+  
+
+
+
 
