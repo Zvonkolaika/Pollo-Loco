@@ -8,14 +8,14 @@ class StatusBarCoin extends StatusBar {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ];
 
-    constructor(){
+    constructor() {
         super();
         this.loadImages(this.IMAGES_COIN);
         this.y = 120;
         this.setPercentage(0);
     }
 
-    setPercentage(percentage){
+    setPercentage(percentage) {
         this.percentage = percentage; // => 0 ... 5
         let path = this.IMAGES_COIN[this.resolveImageIndex()]
         this.img = this.imageCache[path];

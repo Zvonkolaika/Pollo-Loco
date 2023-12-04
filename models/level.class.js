@@ -7,6 +7,7 @@ class Level {
     platforms;
    
     level_end_x = 3690;
+
     constructor(enemies, clouds, backgroundObjects, bottles, coins, platforms) {
         this.enemies = enemies;
         this.clouds = clouds;
@@ -14,6 +15,5 @@ class Level {
         this.bottles = bottles;
         this.coins = coins;
         this.platforms = platforms;
-         
     }
 }

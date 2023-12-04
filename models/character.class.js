@@ -2,8 +2,15 @@ class Character extends MovableObject {
     y = 50;
     height = 280;
     speed = 10;
-    
-  
+    world;
+
+    offset = {
+        top: 190,
+        left: 30,
+        right: 40,
+        bottom: 30
+    };
+
     IMAGES_WALKING = [
         '../img/2_character_pepe/2_walk/W-21.png',
         '../img/2_character_pepe/2_walk/W-22.png',
@@ -67,24 +74,13 @@ class Character extends MovableObject {
         '../img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
-    world;
-
-    offset = {
-        top: 190,
-        left: 30,
-        right: 40,
-        bottom: 30
-    };
-
-  
     walking_sound = new Audio('/audio/running.wav');
     jumping_sound = new Audio('audio/jump.wav');
     snoring_sound = new Audio('audio/snoring.wav');
     hurting_sound = new Audio('audio/hurt.mp3');
     game_lost_sound = new Audio('audio/game-lost.wav');
 
-
-    constructor(){
+    constructor() {
         super().loadImage('../img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -96,108 +92,121 @@ class Character extends MovableObject {
         this.animate();
         this.jumping_sound.volume = 0.3;
         this.snoring_sound.volume = 1;
-       
     }
 
-    animate(){
+    animate() {
         this.characterKeyboardInterval();
         this.characterAnimationInterval();
     }
 
-    characterKeyboardInterval(){
+    characterKeyboardInterval() {
 
         this.startAnimation(() => {
-            //this.walking_sound.pause();
-              if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
-                 this.moveRight();
-                 this.otherDirection = false;
-                 //this.walking_sound.play();
-  
-              }
-  
-              if(this.world.keyboard.LEFT && this.x > 0){
-                  this.moveLeft();
-                  this.otherDirection = true;
-                 
-                 // this.walking_sound.play();
-  
-              }
-             
-              if(this.world.keyboard.SPACE && !this.isAboveGround()
-              || this.world.keyboard.UP && !this.isAboveGround())
-  
-              {
-                  this.jump();
-                //  this.jumping_sound.play();
-              }
-            
-  
-              this.world.camera_x = -this.x + 100;
-  
-          }, 1000 / 60);
+
+            if (this.canMoveRight()) {
+                this.moveRight();
+                this.otherDirection = false;
+            }
+
+            if (this.canMoveLeft()) {
+                this.moveLeft();
+                this.otherDirection = true;
+            }
+
+            if (this.canJump()) {
+                this.jump();
+            }
+
+            this.world.camera_x = -this.x + 100;
+
+        }, 1000 / 60);
     }
 
-    characterAnimationInterval(){
-        
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    }
+
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > 0;
+    }
+
+    canJump() {
+        return this.world.keyboard.SPACE && !this.isAboveGround()
+            || this.world.keyboard.UP && !this.isAboveGround();
+    }
+
+    characterAnimationInterval() {
+
         this.startAnimation(() => {
-            if(this.isDead()){
-                this.playAnimation(this.IMAGES_DEAD);
-                this.stopSound(world.game_sound);
-                this.game_lost_sound.play();
-                
+            if (this.isDead()) {
+                this.deadAnimation();
                 setTimeout(() => {
-                    this.stopSound(this.game_lost_sound);
-            
-                   
+                    this.stopAnimation();
                 }, 5000);
-              
             }
-            else if(this.isHurt()){
-        
-                this.playAnimation(this.IMAGES_HURTING);
-                this.hurting_sound.play();
+            else if (this.isHurt()) {
+                this.hurtingAnimation();
             }
-            else if(this.isJumping()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-                this.jumping_sound.play();
+            else if (this.isJumping()) {
+                this.jumpingAnimation();
             }
-            else if(this.characterIsMoving()) {
-                this.playAnimation(this.IMAGES_WALKING);
-                this.stopSound(this.snoring_sound);
-                this.walking_sound.play();
+            else if (this.characterIsMoving()) {
+                this.walkingAnimation();
             }
-            else if(this.isAsleep()) {
-                this.playAnimation(this.IMAGES_SLEEPING);
-                this.snoring_sound.play();
+            else if (this.isAsleep()) {
+                this.sleepingAnimation();
             }
             else {
                 this.playAnimation(this.IMAGES_STAYING);
                 this.stopSound(this.walking_sound);
-                } 
-            }, 70);   
+            }
+        }, 70);
     }
 
-
-    characterIsMoving(){
+    characterIsMoving() {
         return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
     }
 
+    deadAnimation(){
+        this.playAnimation(this.IMAGES_DEAD);
+        this.stopSound(world.game_sound);
+        this.game_lost_sound.play();
+    }
+
+    hurtingAnimation(){
+        this.playAnimation(this.IMAGES_HURTING);
+        this.hurting_sound.play();
+    }
+
+    jumpingAnimation(){
+        this.playAnimation(this.IMAGES_JUMPING);
+        this.jumping_sound.play();
+    }
+
+    walkingAnimation(){
+        this.playAnimation(this.IMAGES_WALKING);
+        this.stopSound(this.snoring_sound);
+        this.walking_sound.play();
+    }
+
+    sleepingAnimation(){
+        this.playAnimation(this.IMAGES_SLEEPING);
+        this.snoring_sound.play();
+    }
+
     muteSound() {
-        this.BACKGROUD_MUSIC.muted = true;
-        this.WALKING_SOUND.muted = true;
-        this.JUMP_SOUND.muted = true;
-        this.SNORING_SOUND.muted = true;
-        this.HURT_SOUND.muted = true;
-        this.GAME_LOST_SOUND.muted = true;
+        this.walking_sound.muted = true;
+        this.jumping_sound.muted = true;
+        this.snoring_sound.muted = true;
+        this.hurting_sound.muted = true;
+        this.game_lost_sound.muted = true;
     }
 
     unmuteSound() {
-        this.BACKGROUD_MUSIC.muted = false;
-        this.WALKING_SOUND.muted = false;
-        this.JUMP_SOUND.muted = false;
-        this.SNORING_SOUND.muted = false;
-        this.HURT_SOUND.muted = false;
-        this.GAME_LOST_SOUND.muted = false;
+        this.walking_sound.muted = false;
+        this.jumping_sound.muted = false;
+        this.snoring_sound.muted = false;
+        this.hurting_sound.muted = false;
+        this.game_lost_sound.muted = false;
     }
-
 }

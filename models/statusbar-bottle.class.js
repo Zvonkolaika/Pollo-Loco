@@ -8,26 +8,16 @@ class StatusBarBottle extends StatusBar {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
 
-    constructor(){
+    constructor() {
         super();
         this.loadImages(this.IMAGES_BOTTLE);
         this.y = 80;
         this.setPercentage(0);
     }
 
-    /* setPercentage(percentage){
-        console.log('Setting percentage:', percentage);
-        this.percentage = percentage; // => 0 ... 5
-        let path = this.IMAGES_BOTTLE[this.resolveImageIndex()]
-        this.img = this.imageCache[path];
-    } */
-
     setPercentage(percentage) {
-        //console.log('Setting percentage:', percentage);
         this.percentage = percentage;
         let path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
-       // console.log('Resolved path before setting image:', path);
         this.img = this.imageCache[path];
-       // console.log('Resolved path after setting image:', this.img);
     }
 } 

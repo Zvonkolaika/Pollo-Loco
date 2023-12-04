@@ -1,135 +1,145 @@
 <!DOCTYPE html>
 <html lang="en" class="notranslate" translate="no">
+
 <head>
     <meta charset="UTF-8">
-   
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-    <link rel="icon" type="image/vnd.microsoft.icon" href="img/icons_game/favicon.ico">  
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="img/icons_game/favicon.ico">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
-  
+    <script src="models/drawable-object.class.js"></script>
+    <script src="models/movable-object.class.js"></script>
+    <script src="models/throwable-object.class.js"></script>
+    <script src="models/world.class.js"></script>
+
+    <script src="models/statusbar.class.js"></script>
+    <script src="models/statusbar-health.class.js"></script>
+    <script src="models/statusbar-coin.class.js"></script>
+    <script src="models/statusbar-bottle.class.js"></script>
+    <script src="models/statusbar-endboss.class.js"></script>
+    <script src="models/statusbar-endboss-heart.class.js"></script>
+
+    <script src="models/character.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/chicken-small.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/platform.class.js"></script>
+    <script src="models/background-object.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/bottle.class.js"></script>
+    <script src="models/coin.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="levels/level1.js"></script>
+
+    <script src="js/game.js"></script>
+
 </head>
+
 <body>
     <h1>El pollo loco</h1>
     <div id="fullscreen">
-    <div id="main-container">
-        <div id="content" class="border-radius">
-          
-            <div id="first-screen" class="border-radius">
-                <img src="img/9_intro_outro_screens/start/startscreen_1.png">
-                <div id="play-button" class="play-button">
-                    <img onclick="start()" class="button" src="/img/icons_game/play-button.png">    
-                </div>
-            </div>
-            <div id="question-button" class="question-button">
-                <img onclick="openCloseAboutGame()" class="button additional" src="/img/icons_game/fragezeichen.png">    
-            </div>
-            <div id="about-game" class="pop-up d-none">
-                <div class="keys">
-                    <div class="key">
-                        <img src="/img/icons_game/right-arrow.png">
-                        <span>RIGHT</span>
-                    </div>
-                    <div class="key">
-                        <img src="/img/icons_game/left.png">
-                        <span>LEFT</span>
-                    </div>
-                    <div class="key">
-                        <img src="/img/icons_game/space.png">
-                        <span>SPACE</span>
-                    </div>
-                    <div class="key">
-                        <img src="/img/icons_game/letter-d.png">
-                        <span>"D" Key</span>
-                    </div>
-                    
-                </div>
-                <span id="full-info">Help Pepe defeat the Giant Chicken by collecting enough salsa bottles, coins, and navigating through the chicken-filled village.
-                    Pepe can defeat chickens by jumping on their heads. Collecting bottles is crucial as they serve as ammunition to defeat the Giant Chicken.
-                    Collecting coins adds to Pepe's overall score. Watch out for hazards in the village! Use the salsa bottles to defeat the Giant Chicken and free the village.
-                </span>
-                <div class="close-key">
-                    <img onclick="openCloseAboutGame()" src="/img/icons_game/cancel.png">
-                </div>
-            </div>
+        <div id="main-container">
 
-            <div id="buttons-game-screen" class="d-none">
-                <div id="question-game-button" class="game-question-button">
-                    <img onclick="openCloseAboutGame()" class="button game" src="/img/icons_game/fragezeichen.png">    
-                </div>
-                <div id="full-screen-game-button" class="game-full-screen-button">
-                    <img onclick="fullScreen()" class="button game" src="/img/icons_game/full-screen.png">    
-                </div>
-                <div id="on-sound" class="game-sound-button">
-                    <img onclick="offSound()" class="button game" src="/img/icons_game/lautsprecher.png">    
-                </div>
-                <div id="off-sound" class="game-sound-button d-none">
-                    <img onclick="onSound()" class="button game" src="/img/icons_game/stumm.png">    
-                </div>
-            </div>
-      
-            <div id="full-screen-button" class="full-screen-button">
-                <img onclick="fullScreen()" class="button additional" src="/img/icons_game/full-screen.png">
-            </div>
+            <div id="content" class="border-radius">
 
-            <div id="mobile-buttons" class="d-none">
-                <div id="mobile-button-left" class="mobile-button">
-                    <img src="img/icons_game/left.png" alt="">
+                <div id="first-screen" class="border-radius">
+                    <img src="img/9_intro_outro_screens/start/startscreen_1.png">
+                    <div id="play-button" class="play-button">
+                        <img onclick="start()" class="button" src="/img/icons_game/play-button.png">
+                    </div>
                 </div>
-                <div id="mobile-button-right" class="mobile-button">
-                    <img src="img/icons_game/right-arrow.png" alt="">
+                <div id="question-button" class="question-button">
+                    <img onclick="openCloseAboutGame()" class="button additional"
+                        src="/img/icons_game/fragezeichen.png">
                 </div>
-                <div id="mobile-button-jump" class="mobile-button">
-                    <img src="img/icons_game/up-arrow.png" alt="">
+                <div id="about-game" class="pop-up d-none">
+                    <div class="keys">
+                        <div class="key">
+                            <img src="/img/icons_game/right-arrow.png">
+                            <span>RIGHT</span>
+                        </div>
+                        <div class="key">
+                            <img src="/img/icons_game/left.png">
+                            <span>LEFT</span>
+                        </div>
+                        <div class="key">
+                            <img src="/img/icons_game/space.png">
+                            <span>SPACE</span>
+                        </div>
+                        <div class="key">
+                            <img src="/img/icons_game/letter-d.png">
+                            <span>"D" Key</span>
+                        </div>
+
+                    </div>
+                    <span id="full-info">Help Pepe defeat the Giant Chicken by collecting enough salsa bottles, coins,
+                        and navigating through the chicken-filled village.
+                        Pepe can defeat chickens by jumping on their heads. Collecting bottles is crucial as they serve
+                        as ammunition to defeat the Giant Chicken.
+                        Collecting coins adds to Pepe's overall score. Watch out for hazards in the village! Use the
+                        salsa bottles to defeat the Giant Chicken and free the village.
+                    </span>
+                    <div class="close-key">
+                        <img onclick="openCloseAboutGame()" src="/img/icons_game/cancel.png">
+                    </div>
                 </div>
-                <div id="mobile-button-bottle" class="mobile-button">
-                    <img src="img/icons_game/mustard.png" alt="">
+
+                <div id="buttons-game-screen" class="d-none">
+                    <div id="question-game-button" class="game-question-button">
+                        <img onclick="openCloseAboutGame()" class="button game" src="/img/icons_game/fragezeichen.png">
+                    </div>
+                    <div id="full-screen-game-button" class="game-full-screen-button">
+                        <img onclick="fullScreen()" class="button game" src="/img/icons_game/full-screen.png">
+                    </div>
+                    <div id="on-sound" class="game-sound-button">
+                        <img onclick="offSound()" class="button game" src="/img/icons_game/lautsprecher.png">
+                    </div>
+                    <div id="off-sound" class="game-sound-button d-none">
+                        <img onclick="onSound()" class="button game" src="/img/icons_game/stumm.png">
+                    </div>
                 </div>
+
+                <div id="full-screen-button" class="full-screen-button">
+                    <img onclick="fullScreen()" class="button additional" src="/img/icons_game/full-screen.png">
+                </div>
+
+                <div id="mobile-buttons" class="d-none">
+                    <div id="mobile-button-left" class="mobile-button">
+                        <img src="img/icons_game/left.png" alt="">
+                    </div>
+                    <div id="mobile-button-right" class="mobile-button">
+                        <img src="img/icons_game/right-arrow.png" alt="">
+                    </div>
+                    <div id="mobile-button-jump" class="mobile-button">
+                        <img src="img/icons_game/up-arrow.png" alt="">
+                    </div>
+                    <div id="mobile-button-bottle" class="mobile-button">
+                        <img src="img/icons_game/mustard.png" alt="">
+                    </div>
+                </div>
+                <div id="game-over-screen" class="game-over-screen d-none">
+                    <img src="img/9_intro_outro_screens/game_over/you lost.png">
+                </div>
+                <div id="restart-button-lost" class="restart d-none">
+                    <img onclick="replayLost()" src="img/icons_game/restart.png" alt="">
+                </div>
+                <div id="game-win-screen" class="game-win-screen d-none">
+                    <img src="img/9_intro_outro_screens/game_over/game over.png">
+                </div>
+                <div id="restart-button-win" class="restart d-none">
+                    <img onclick="replayWin()" src="img/icons_game/restart.png" alt="">
+                </div>
+                <div id="rotateMessageContainer" class="d-none">
+                    <p id="rotateMessage">Please rotate your device!</p>
+                </div>
+                <canvas id="canvas" width="720" height="480"></canvas>
             </div>
-            <div id="game-over-screen" class="game-over-screen d-none">
-                <img src="img/9_intro_outro_screens/game_over/you lost.png">
-            </div>
-            <div id="restart-button-lost" class="restart d-none">
-                <img onclick="replayLost()" src="img/icons_game/restart.png" alt="">
-            </div>
-            <div id="game-win-screen" class="game-win-screen d-none">
-                <img src="img/9_intro_outro_screens/game_over/game over.png">
-            </div>
-            <div id="restart-button-win" class="restart d-none">
-                <img onclick="replayWin()" src="img/icons_game/restart.png" alt="">
-            </div>
-           
-            <canvas id="canvas" width="720" height="480"></canvas>
         </div>
-    </div> 
-</div> 
+    </div>
 </body>
-<script src="models/drawable-object.class.js"></script>
-<script src="models/movable-object.class.js"></script>
-<script src="models/throwable-object.class.js"></script>
-<script src="models/world.class.js"></script>
 
-<script src="models/statusbar.class.js"></script>
-<script src="models/statusbar-health.class.js"></script>
-<script src="models/statusbar-coin.class.js"></script>
-<script src="models/statusbar-bottle.class.js"></script>
-<script src="models/statusbar-endboss.class.js"></script>
-<script src="models/statusbar-endboss-heart.class.js"></script>
-
-<script src="models/character.class.js"></script>
-<script src="models/chicken.class.js"></script>
-<script src="models/chicken-small.class.js"></script>
-<script src="models/cloud.class.js"></script>
-<script src="models/platform.class.js"></script>
-<script src="models/background-object.class.js"></script>
-<script src="models/keyboard.class.js"></script>
-<script src="models/bottle.class.js"></script>
-<script src="models/coin.class.js"></script>
-<script src="models/endboss.class.js"></script>
-<script src="models/level.class.js"></script>
-<script src="levels/level1.js"></script>
-
-<script src="js/game.js"></script>
 </html>

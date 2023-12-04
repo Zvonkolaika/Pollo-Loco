@@ -4,12 +4,8 @@ class statusBarEndbossHeart extends StatusBar {
     width = 65;
     height = 65;
 
-
-
-    constructor(){
-
+    constructor() {
         super().loadImage('img/7_statusbars/3_icons/icon_health_endboss.png');
         this.x = 3794;
     }
-   
-    }
+}

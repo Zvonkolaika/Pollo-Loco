@@ -12,42 +12,38 @@ class Smallchicken extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
-    constructor(x){
+    constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.x = x + Math.random() * 500;
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
         this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
-       
     }
 
-    animate(){
-       this.chickenSmallMoveLeft();
-       this.chickenSmallAnimation();
-      
+    animate() {
+        this.chickenSmallMoveLeft();
+        this.chickenSmallAnimation();
     }
 
-    chickenSmallMoveLeft(){
+    chickenSmallMoveLeft() {
         this.startAnimation(() => {
-            if(!this.isDead()){
-            this.moveLeft();
+            if (!this.isDead()) {
+                this.moveLeft();
             }
-        }, 1000 / 60); 
+        }, 1000 / 60);
     }
-            
-     
-    chickenSmallAnimation(){
+
+    chickenSmallAnimation() {
         this.startAnimation(() => {
             let isDead = this.isDead();
-            if(isDead){
+            if (isDead) {
                 this.playAnimation(this.IMAGES_DEAD);
             }
-            else{
+            else {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-            }, 200);
-    
-    }  
+        }, 200);
+    }
 }
-   
+

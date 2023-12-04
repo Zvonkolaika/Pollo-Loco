@@ -1,7 +1,3 @@
-const groundLevel = 150;
-const groundLevelCharacter = 50;
-const platformLevel = 35;
-
 class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
@@ -23,109 +19,94 @@ class MovableObject extends DrawableObject {
         right: 0,
         bottom: 0
     };
-    
 
-   applyGravity(){
+    applyGravity() {
         this.startAnimation(() => {
-            if((this.isAboveGround() || this.speedY > 0)){
+            if ((this.isAboveGround() || this.speedY > 0)) {
                 this.y -= this.speedY; // this.y = this.y - this.speedY
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 25); 
-    } 
+        }, 1000 / 25);
+    }
 
-
-    jump(){
+    jump() {
         this.speedY = 30;
         this.lastAction = new Date().getTime();
         this.onPlatform = 0;
     }
 
-    isAboveGround(){
-        if (this instanceof ThrowableObject){ // Throwable objects should always fall 
+    isAboveGround() {
+        if (this instanceof ThrowableObject) { // Throwable objects should always fall 
             return true;
-        } 
- 
-        else 
-        {
-            if(this.onPlatform){
+        }
+
+        else {
+            if (this.onPlatform) {
                 return false;
             }
             return this.y < 150;
         }
     }
 
-    isJumping(){
+    isJumping() {
         return this.isAboveGround() && this.speedY > 0;
-
     }
 
     //character.isColliding(chicken)
 
-    isColliding(mo){
-        return this.x + this.width - this.offset.right > mo.x  + mo.offset.left &&
+    isColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-      //  return this.isCollidingWith(mo);
     }
 
     isCollidingWith(otherObject) {
         return this.isColliding(otherObject);
-      /*   return (
-            this.x + this.width > otherObject.x &&
-            this.y + this.height > otherObject.y &&
-            this.x < otherObject.x + otherObject.width &&
-            this.y < otherObject.y + otherObject.height
-        ); */
     }
 
     hit(hitValue) {
-        
+
         this.energy -= hitValue;
-        
+
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
-    
     }
-    
 
     collectBottle() {
         if (this.bottles < this.maxBottles) {
             this.bottles++;
-           // this.statusBarBottle.setPercentage(this.bottles);
-           // console.log('Collected a bottle! Total bottles:', this.bottles);
         }
     }
 
     collectCoin() {
-            this.coins++;
-        }
+        this.coins++;
+    }
 
-    wasteBottle(){
-        if(this.bottles > 0){
+    wasteBottle() {
+        if (this.bottles > 0) {
             this.bottles--;
             return true;
         }
-        else{
+        else {
             false;
         }
     }
 
-    isDead(){
+    isDead() {
         return this.energy === 0;
     }
 
-    isHurt(){
-       let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-       timepassed = timepassed / 1000; // Difference in s
-       return timepassed < 1;
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
+        timepassed = timepassed / 1000; // Difference in s
+        return timepassed < 1;
     }
 
-    moveLeft(){
+    moveLeft() {
         this.x -= this.speed;
         this.lastAction = new Date().getTime();
     }
@@ -135,16 +116,16 @@ class MovableObject extends DrawableObject {
         this.lastAction = new Date().getTime();
     }
 
-    moveOut(){
+    moveOut() {
         this.x -= this.speed;
         this.y += this.speed;
     }
 
-    getPosition(){
+    getPosition() {
         return this.x;
     }
 
-    playAnimation(images){
+    playAnimation(images) {
         if (images && images.length > 0) {
             let i = this.currentImage % images.length;
             let path = images[i];
@@ -156,33 +137,29 @@ class MovableObject extends DrawableObject {
     }
 
     isAsleep() {
-        let timePassed = new Date().getTime() - this.lastAction; 
+        let timePassed = new Date().getTime() - this.lastAction;
         //the time passed since the last action.
         timePassed = timePassed / 1000;
         // checks if the time passed since the last action is greater than 5 seconds.
         return timePassed > 5;
     }
 
-    stopSound(sound){
+    stopSound(sound) {
         sound.pause();
         sound.currentTime = 0;
     }
 
-
-
-    startAnimation(fn, interval){
+    startAnimation(fn, interval) {
         this.animationID.push(setInterval(fn, interval));
     }
 
     stopAnimation() {
-        console.log("clearInterval MO");
+        
         this.animationID.forEach(ID => {
-            
+
             clearInterval(ID);
         });
-
     }
-       
 }
 
 
