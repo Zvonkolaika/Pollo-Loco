@@ -1,0 +1,282 @@
+/* Global styling for the entire body */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-image: url(../img/icons_game/desert3.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: "Chango", sans-serif;
+  color: rgb(59, 83, 53);
+  overflow: hidden;
+}
+
+/* Styling for the main heading */
+h1 {
+  font-size: 4rem;
+  letter-spacing: 0.5rem;
+  margin: 1rem;
+  text-shadow: 2px 4px 2px rgb(118 161 118);
+}
+
+/* Styling for the canvas element */
+canvas {
+  background-color: black;
+  display: block !important;
+  width: 100%;
+  height: 100%;
+}
+
+/* Styling for elements with border radius */
+.border-radius {
+  border-radius: 16px;
+}
+
+/* Styling for content container */
+#content {
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* Styling for the first screen */
+#first-screen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#first-screen img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Styling for play button, question button, and full-screen button */
+.play-button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 370px;
+  z-index: 2;
+}
+
+.question-button {
+  position: absolute;
+  left: 78%;
+  transform: translateX(-50%);
+  bottom: 390px;
+  z-index: 2;
+}
+
+.full-screen-button {
+  position: absolute;
+  left: 90%;
+  transform: translateX(-50%);
+  bottom: 390px;
+  z-index: 2;
+}
+
+/* Styling for buttons on hover */
+.button:hover {
+  cursor: pointer;
+}
+
+/* Common styling for buttons */
+.button {
+  height: 80px !important;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Additional styling for specific buttons */
+.additional {
+  height: 50px !important;
+}
+
+.game {
+  height: 35px !important;
+  animation: none !important;
+}
+
+/* Animation for pulsating effect on buttons */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* CSS class to hide elements */
+.d-none {
+  display: none !important;
+}
+
+/* Styling for pop-up messages */
+.pop-up {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(247, 199, 75);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  z-index: 99;
+}
+
+/* Styling for keys container */
+.keys {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* Styling for individual keys */
+.key img {
+  margin-bottom: 0.5rem;
+  height: 3.5rem;
+  margin-right: 1.1rem;
+  margin-left: 1.1rem;
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Styling for close key */
+.close-key img {
+  margin-bottom: 0rem;
+  height: 3.5rem;
+  margin-right: 1.1rem;
+  margin-left: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.close-key :hover {
+  cursor: pointer;
+}
+
+/* Styling for game-related buttons */
+.game-question-button {
+  position: absolute;
+  top: 3rem;
+  right: 8rem;
+  transition: 125ms ease-in-out;
+}
+
+.game-sound-button {
+  position: absolute;
+  top: 3rem;
+  right: 12rem;
+  transition: 125ms ease-in-out;
+}
+
+.game-full-screen-button {
+  position: absolute;
+  top: 3rem;
+  right: 4rem;
+  transition: 125ms ease-in-out;
+  z-index: 2;
+}
+
+/* Styling for mobile buttons */
+#mobile-button-left {
+  position: absolute;
+  bottom: 1rem;
+  left: 4rem;
+}
+
+#mobile-button-right {
+  position: absolute;
+  bottom: 1rem;
+  left: 12rem;
+}
+
+#mobile-button-jump {
+  position: absolute;
+  bottom: 1rem;
+  left: 24rem;
+}
+
+#mobile-button-bottle {
+  position: absolute;
+  bottom: 1rem;
+  left: 38rem;
+}
+
+.mobile-button img {
+  height: 3.5rem;
+  opacity: 0.7;
+}
+
+/* Styling for game over and game win screens */
+.game-over-screen img,
+.game-win-screen img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Styling for restart button */
+.restart {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.restart :hover {
+  cursor: pointer;
+}
+
+.restart img {
+  position: absolute;
+  height: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -90px;
+}
+
+/* Styling for rotation message */
+#rotateMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #cfeadb;
+  text-shadow: 0.5px 1px 0.5px rgb(118 161 118);
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-size: 15px;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+/* Styling for fullscreen container */
+#fullscreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

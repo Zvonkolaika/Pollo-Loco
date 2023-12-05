@@ -93,7 +93,7 @@ class Character extends MovableObject {
         this.jumping_sound.volume = 0.3;
         this.snoring_sound.volume = 1;
     }
-
+     // Main animation loop for character
     animate() {
         this.characterKeyboardInterval();
         this.characterAnimationInterval();
@@ -119,17 +119,19 @@ class Character extends MovableObject {
 
             this.world.camera_x = -this.x + 100;
 
-        }, 1000 / 60);
+        }, 1000 / 45);
     }
+// Check if the character can move to the right
+canMoveRight() {
+    return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+}
 
-    canMoveRight() {
-        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
-    }
+// Check if the character can move to the left
+canMoveLeft() {
+    return this.world.keyboard.LEFT && this.x > 0;
+}
 
-    canMoveLeft() {
-        return this.world.keyboard.LEFT && this.x > 0;
-    }
-
+// Check if the character can jump
     canJump() {
         return this.world.keyboard.SPACE && !this.isAboveGround()
             || this.world.keyboard.UP && !this.isAboveGround();
@@ -163,6 +165,7 @@ class Character extends MovableObject {
         }, 70);
     }
 
+// Check if the character is currently moving
     characterIsMoving() {
         return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
     }

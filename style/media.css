@@ -1,0 +1,309 @@
+/* Media query for portrait orientation and small width */
+@media only screen and (orientation: portrait) and (max-width: 600px) {
+    #rotateMessageContainer {
+      display: block !important;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  
+    .button {
+      display: none;
+    }
+  }
+  
+  /* Media query for landscape orientation and medium width */
+  @media only screen and (max-width: 932px) and (orientation: landscape) {
+    #mobile-buttons {
+      display: block;
+    }
+  }
+  
+  /* Media query for smartphones with max-width 720px */
+  @media only screen and (max-width: 720px) {
+    canvas {
+      width: 100%;
+    }
+  
+    h1 {
+      font-size: 3rem;
+      letter-spacing: 0.3rem;
+      align-items: center;
+    }
+  }
+  
+  /* Media query for smartphones with max-width 700px */
+  @media only screen and (max-width: 700px) {
+    .play-button {
+      bottom: 344px;
+    }
+  
+    .full-screen-button {
+      bottom: 358px;
+    }
+  
+    .question-button {
+      bottom: 358px;
+    }
+  
+    .button {
+      height: 65px;
+    }
+  }
+  
+  /* Media query for smartphones with max-width 650px */
+  @media only screen and (max-width: 650px) {
+    .play-button {
+      bottom: 328px;
+    }
+  
+    .full-screen-button {
+      bottom: 334px;
+    }
+  
+    .question-button {
+      bottom: 334px;
+    }
+  
+    .button {
+      height: 65px !important;
+    }
+  
+    .additional {
+      height: 50px !important;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 590px */
+  @media only screen and (max-height: 590px) {
+    h1 {
+      display: none;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 480px */
+  @media only screen and (max-height: 480px) {
+    canvas {
+      height: 100vh;
+    }
+  
+    .pop-up {
+      width: 100%;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 470px */
+  @media only screen and (max-height: 470px) {
+    .play-button {
+      bottom: 360px;
+    }
+  
+    .full-screen-button {
+      bottom: 384px;
+    }
+  
+    .question-button {
+      bottom: 384px;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 460px */
+  @media only screen and (max-height: 460px) {
+    .mobile-button {
+      height: 3rem !important;
+      bottom: 2rem !important;
+    }
+  
+    #mobile-button-bottle {
+      left: 33.5rem !important;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 450px */
+  @media only screen and (max-height: 450px) {
+    .play-button {
+      bottom: 344px;
+    }
+  
+    .full-screen-button {
+      bottom: 358px;
+    }
+  
+    .question-button {
+      bottom: 358px;
+    }
+  
+    .button {
+      height: 65px;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 435px */
+  @media only screen and (max-height: 435px) {
+    .play-button {
+      bottom: 328px;
+    }
+  
+    .full-screen-button {
+      bottom: 334px;
+    }
+  
+    .question-button {
+      bottom: 334px;
+    }
+  
+    .button {
+      height: 65px !important;
+    }
+  
+    .additional {
+      height: 50px !important;
+    }
+  
+    .game {
+      height: 35px !important;
+    }
+  
+    .mobile-button {
+      height: 2rem !important;
+    }
+  
+    .additional {
+      height: 45px !important;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 410px */
+  @media only screen and (max-height: 410px) {
+    .play-button {
+      bottom: 312px;
+    }
+  
+    .full-screen-button {
+      bottom: 318px;
+    }
+  
+    .question-button {
+      bottom: 318px;
+    }
+  
+    #mobile-button-bottle {
+      left: 29.5rem !important;
+    }
+  
+    #mobile-button-jump {
+      left: 20rem !important;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 385px */
+  @media only screen and (max-height: 385px) {
+    .play-button {
+      bottom: 286px;
+    }
+  
+    .full-screen-button {
+      bottom: 292px;
+    }
+  
+    .question-button {
+      bottom: 292px;
+    }
+  
+    #full-info {
+      display: none;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 360px */
+  @media only screen and (max-height: 360px) {
+    .play-button {
+      bottom: 36px;
+    }
+  
+    .additional {
+      height: 30px !important;
+    }
+  
+    .full-screen-button {
+      bottom: 270px;
+    }
+  
+    .question-button {
+      bottom: 270px;
+    }
+  
+    #mobile-button-bottle {
+      left: 25.5rem !important;
+    }
+  
+    #mobile-button-left {
+      left: 3rem !important;
+    }
+  
+    #mobile-button-right {
+      left: 10rem !important;
+    }
+  
+    .mobile-button img {
+      height: 3rem;
+    }
+  
+    .mobile-button {
+      height: 1.5rem !important;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 320px */
+  @media only screen and (max-height: 320px) {
+    .full-screen-button {
+      bottom: 238px;
+    }
+  
+    .question-button {
+      bottom: 238px;
+    }
+  
+    #mobile-button-bottle {
+      left: 22.5rem !important;
+    }
+  
+    #mobile-button-jump {
+      left: 15.5rem !important;
+    }
+  
+    .mobile-button img {
+      height: 2.5rem;
+    }
+  
+    .mobile-button {
+      height: 1.1rem !important;
+    }
+  
+    .key img {
+      height: 2rem;
+    }
+  
+    .keys {
+      padding: 0;
+    }
+  }
+  
+  /* Media query for smartphones with max-width 720px */
+  @media only screen and (max-width: 720px) {
+    canvas {
+      width: 100%;
+    }
+  }
+  
+  /* Media query for smartphones with max-height 480px */
+  @media only screen and (max-height: 480px) {
+    canvas {
+      height: 100vh;
+    }
+  }
+  
