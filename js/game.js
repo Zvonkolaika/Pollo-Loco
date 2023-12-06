@@ -75,6 +75,15 @@ function hideMobileButtons() {
 function openCloseAboutGame() {
     var question = document.getElementById("about-game");
     question.classList.toggle("d-none");
+    world.pause = !world.pause;
+    pauseOnOff(world.pause);
+}
+
+function onOffPauseGame(){
+    world.pause = !world.pause;
+    pauseOnOff(world.pause);
+    document.getElementById('on-pause').classList.toggle('d-none');
+    document.getElementById('off-pause').classList.toggle('d-none');
 }
 
 // Turn off game sound
@@ -153,43 +162,60 @@ function stopAllCoinsIntervals() {
     world.level.coins.forEach((coin) => coin.stopAnimation());
 }
 
+function pauseOnOff(pause) {
+    world.level.enemies.forEach(enemie => {
+        enemie.pause = pause;
+    });
+    world.character.pause = pause;
+}
+
 // Enter fullscreen mode
 function fullScreen() {
     let fullScreen = document.getElementById('fullscreen');
     enterFullscreen(fullScreen);
     if (gameIsRunning) {
         document.getElementById('full-screen-game-button').classList.add('d-none');
-    } else {
+    }
+    else {
         document.getElementById('full-screen-button').classList.add('d-none');
         document.getElementById('full-screen-game-button').classList.add('d-none');
     }
 }
-
 // Show fullscreen button based on game state
 function showFullScreenButton() {
     if (gameIsRunning) {
         document.getElementById('full-screen-game-button').classList.remove('d-none');
-    } else {
+    }
+    else {
         console.log("fullscreen mode");
         document.getElementById('full-screen-button').classList.remove('d-none');
     }
 }
 
-// Event listener for fullscreen change
+function enterFullscreen(fullScreen) {
+    if (fullScreen.requestFullscreen) {
+        fullScreen.requestFullscreen();
+    } else if (fullScreen.webkitRequestFullscreen) { /* Safari */
+        fullScreen.webkitRequestFullscreen();
+    } else if (fullScreen.msRequestFullscreen) { /* IE11 */
+        fullScreen.msRequestFullscreen();
+    }
+}
+
 document.addEventListener("fullscreenchange", function () {
     if (document.fullscreenElement === null) {
         showFullScreenButton();
     }
 });
 
-// Exit fullscreen mode
+/* Close fullscreen */
 function closeFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen(); // Safari
-    } else if (document.msExitFullscreen) {
-        document.msExitFullscreen(); // IE11
+    } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
     }
 }
 

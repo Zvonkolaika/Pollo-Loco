@@ -2,18 +2,19 @@ class Smallchicken extends MovableObject {
     height = 70;
     width = 80;
     y = 360;
+
     IMAGES_WALKING = [
-        'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
-        'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
-        'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
+        './img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
+        './img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
+        './img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
     IMAGES_DEAD = [
-        'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
+        './img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
     constructor(x) {
-        super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+        super().loadImage('./img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.x = x + Math.random() * 500;
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
@@ -28,6 +29,7 @@ class Smallchicken extends MovableObject {
 
     chickenSmallMoveLeft() {
         this.startAnimation(() => {
+            if(this.pause) return;
             if (!this.isDead()) {
                 this.moveLeft();
             }
@@ -36,6 +38,7 @@ class Smallchicken extends MovableObject {
 
     chickenSmallAnimation() {
         this.startAnimation(() => {
+            if(this.pause) return;
             let isDead = this.isDead();
             if (isDead) {
                 this.playAnimation(this.IMAGES_DEAD);

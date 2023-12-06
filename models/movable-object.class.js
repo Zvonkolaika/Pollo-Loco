@@ -12,6 +12,9 @@ class MovableObject extends DrawableObject {
     visibleHeight = this.height;
     onPlatform = 0;
     animationID = [];
+    pause = false;
+    ground = 160;
+    canThrow = true;
 
     offset = {
         top: 0,
@@ -23,11 +26,21 @@ class MovableObject extends DrawableObject {
     // Apply gravity to the object
     applyGravity() {
         this.startAnimation(() => {
+        
             if ((this.isAboveGround() || this.speedY > 0)) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
+
+            if (!this.isAboveGround() && !this.onPlatform) {
+                this.setOnGround();
+            }
         }, 1000 / 25);
+    }
+
+    setOnGround() {
+        this.y = this.ground;
+        this.speedY = 0;
     }
 
     // Make the object jump
@@ -36,7 +49,7 @@ class MovableObject extends DrawableObject {
         this.lastAction = new Date().getTime();
         this.onPlatform = 0;
     }
-
+    
     // Check if the object is above the ground
     isAboveGround() {
         if (this instanceof ThrowableObject) {
@@ -45,7 +58,7 @@ class MovableObject extends DrawableObject {
             if (this.onPlatform) {
                 return false;
             }
-            return this.y < 150;
+            return this.y < this.ground;
         }
     }
 
@@ -88,11 +101,17 @@ class MovableObject extends DrawableObject {
     collectCoin() {
         this.coins++;
     }
-
+    
     // Waste a bottle
     wasteBottle() {
-        if (this.bottles > 0) {
-            this.bottles--;
+        if (this.bottles > 0 && this.canThrow) {
+        this.bottles--;
+        this.canThrow = false;
+            setTimeout(() => {
+                this.canThrow = true;
+                
+            }, 2000);
+            
             return true;
         } else {
             return false;

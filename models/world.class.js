@@ -17,14 +17,15 @@ class World {
     adjustingWidthRight = 150;
     adjustingWidthLeft = 55;
     animationID = [];
+    pause = false;
     // Initialize audio elements
-    game_sound = new Audio('/audio/funny-country-loop-ver.wav');
-    chicken_dead_sound = new Audio('/audio/chicken-growl.wav');
-    bottle_throw_sound = new Audio('audio/throw-bottle.wav');
-    bottle_collect_sound = new Audio('audio/bottles-clinking.wav');
-    coin_collect_sound = new Audio('audio/coins.wav');
-    endboss_hit_sound = new Audio('audio/endboss-hit.wav');
-    win_sound = new Audio('audio/win.wav');
+    game_sound = new Audio('./audio/funny-country-loop-ver.wav');
+    chicken_dead_sound = new Audio('./audio/chicken-growl.wav');
+    bottle_throw_sound = new Audio('./audio/throw-bottle.wav');
+    bottle_collect_sound = new Audio('./audio/bottles-clinking.wav');
+    coin_collect_sound = new Audio('./audio/coins.wav');
+    endboss_hit_sound = new Audio('./audio/endboss-hit.wav');
+    win_sound = new Audio('./audio/win.wav');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -50,20 +51,22 @@ class World {
     run() {
         // Set up various animations at different intervals
         this.startAnimation(() => {
-        this.checkPlatformEdges(this.character);
-        this.checkCollisions(this.level.enemies);
-        this.checkCollisions(this.level.platforms);
-        this.checkThrowObjects();
-        this.checkCollectItems();
-        this.checkCollectCoins();
-
+            if(this.pause) return;
+            this.checkPlatformEdges(this.character);
+            this.checkCollisions(this.level.enemies);
+            this.checkCollisions(this.level.platforms);
+            this.checkThrowObjects();
+            this.checkCollectItems();
+            this.checkCollectCoins();
         }, 100);
 
         this.startAnimation(() => {
+            if(this.pause) return;
             this.allignEndbossStatusbar();
         }, 100);
 
         this.startAnimation(() => {
+            if(this.pause) return;
             this.checkThrowableCollisions();
         }, 500);
     }
@@ -112,8 +115,10 @@ checkCollisions(obstacles) {
                 this.gameLost();
             } else if (obstacle instanceof Endboss) {
                 // Handle collision with end boss
+                
                 let hitValue = 20;
                 this.characterHitting(hitValue);
+                this.character.x -= 100;
                 this.gameLost();
             }
         }
@@ -204,7 +209,7 @@ checkCollisions(obstacles) {
         this.character.jump();
         enemy.energy = 0;
         this.chicken_dead_sound.play();
-
+    
         setTimeout(() => {
             const index = this.level.enemies.indexOf(enemy);
             if (index != -1) {
@@ -285,7 +290,7 @@ checkCollisions(obstacles) {
     // Check if character can throw objects
     checkThrowObjects() {
         if (this.keyboard.D) {
-            this.character.lastAction = new Date().getTime();
+          //  this.character.lastAction = new Date().getTime();
 
             if (this.character.wasteBottle()) {
                 // Create a new throwable object (bottle) and add it to the list

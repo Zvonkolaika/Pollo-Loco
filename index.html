@@ -3,14 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/vnd.microsoft.icon" href="img/icons_game/favicon.ico">
-    <title>Document</title>
+    <title>El Pollo loco</title>
+    <link rel="stylesheet" href="style/fonts.css">
+    
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/media.css">
-    <link rel="stylesheet" href="style/fonts.css">
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
@@ -50,29 +51,29 @@
                 <div id="first-screen" class="border-radius">
                     <img src="img/9_intro_outro_screens/start/startscreen_1.png">
                     <div id="play-button" class="play-button">
-                        <img onclick="start()" class="button" src="/img/icons_game/play-button.png">
+                        <img onclick="start()" class="button" src="img/icons_game/play-button.png">
                     </div>
                 </div>
                 <div id="question-button" class="question-button">
                     <img onclick="openCloseAboutGame()" class="button additional"
-                        src="/img/icons_game/fragezeichen.png">
+                        src="img/icons_game/fragezeichen.png">
                 </div>
                 <div id="about-game" class="pop-up d-none">
                     <div class="keys">
                         <div class="key">
-                            <img src="/img/icons_game/right-arrow.png">
+                            <img src="img/icons_game/right-arrow.png">
                             <span>RIGHT</span>
                         </div>
                         <div class="key">
-                            <img src="/img/icons_game/left.png">
+                            <img src="img/icons_game/left.png">
                             <span>LEFT</span>
                         </div>
                         <div class="key">
-                            <img src="/img/icons_game/space.png">
+                            <img src="img/icons_game/space.png">
                             <span>SPACE</span>
                         </div>
                         <div class="key">
-                            <img src="/img/icons_game/letter-d.png">
+                            <img src="img/icons_game/letter-d.png">
                             <span>"D" Key</span>
                         </div>
 
@@ -85,27 +86,33 @@
                         salsa bottles to defeat the Giant Chicken and free the village.
                     </span>
                     <div class="close-key">
-                        <img onclick="openCloseAboutGame()" src="/img/icons_game/cancel.png">
+                        <img onclick="openCloseAboutGame()" src="img/icons_game/cancel.png">
                     </div>
                 </div>
 
                 <div id="buttons-game-screen" class="d-none">
                     <div id="question-game-button" class="game-question-button">
-                        <img onclick="openCloseAboutGame()" class="button game" src="/img/icons_game/fragezeichen.png">
+                        <img onclick="openCloseAboutGame()" class="button game" src="img/icons_game/fragezeichen.png">
                     </div>
                     <div id="full-screen-game-button" class="game-full-screen-button">
-                        <img onclick="fullScreen()" class="button game" src="/img/icons_game/full-screen.png">
+                        <img onclick="fullScreen()" class="button game" src="img/icons_game/full-screen.png">
                     </div>
                     <div id="on-sound" class="game-sound-button">
-                        <img onclick="offSound()" class="button game" src="/img/icons_game/lautsprecher.png">
+                        <img onclick="offSound()" class="button game" src="img/icons_game/lautsprecher.png">
                     </div>
                     <div id="off-sound" class="game-sound-button d-none">
-                        <img onclick="onSound()" class="button game" src="/img/icons_game/stumm.png">
+                        <img onclick="onSound()" class="button game" src="img/icons_game/stumm.png">
+                    </div>
+                    <div id="on-pause" class="game-pause-button">
+                        <img onclick="onOffPauseGame()" class="button game" src="img/icons_game/pause.png">
+                    </div>
+                    <div id="off-pause" class="game-pause-button d-none">
+                        <img onclick="onOffPauseGame()" class="button game" src="img/icons_game/play-button.png">
                     </div>
                 </div>
 
                 <div id="full-screen-button" class="full-screen-button">
-                    <img onclick="fullScreen()" class="button additional" src="/img/icons_game/full-screen.png">
+                    <img onclick="fullScreen()" class="button additional" src="img/icons_game/full-screen.png">
                 </div>
 
                 <div id="mobile-buttons" class="d-none">

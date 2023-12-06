@@ -1,3 +1,5 @@
+
+
 /* Media query for portrait orientation and small width */
 @media only screen and (orientation: portrait) and (max-width: 600px) {
     #rotateMessageContainer {
@@ -26,13 +28,7 @@
   /* Media query for smartphones with max-width 720px */
   @media only screen and (max-width: 720px) {
     canvas {
-      width: 100%;
-    }
-  
-    h1 {
-      font-size: 3rem;
-      letter-spacing: 0.3rem;
-      align-items: center;
+      width: 100% !important;
     }
   }
   
@@ -51,22 +47,28 @@
     }
   
     .button {
-      height: 65px;
+      height: 65px !important;
     }
+
+    h1 {
+        font-size: 3rem !important;
+        letter-spacing: 0.3rem !important;
+        align-items: center !important;
+      }
   }
   
   /* Media query for smartphones with max-width 650px */
   @media only screen and (max-width: 650px) {
     .play-button {
-      bottom: 328px;
+      bottom: 314px !important;
     }
   
     .full-screen-button {
-      bottom: 334px;
+      bottom: 334px !important;
     }
   
     .question-button {
-      bottom: 334px;
+      bottom: 334px !important;
     }
   
     .button {
@@ -89,6 +91,8 @@
   @media only screen and (max-height: 480px) {
     canvas {
       height: 100vh;
+      aspect-ratio: 3 / 2;
+      width: 100%;
     }
   
     .pop-up {
@@ -114,8 +118,8 @@
   /* Media query for smartphones with max-height 460px */
   @media only screen and (max-height: 460px) {
     .mobile-button {
-      height: 3rem !important;
-      bottom: 2rem !important;
+      height: 3rem;
+      bottom: 2rem;
     }
   
     #mobile-button-bottle {
@@ -166,10 +170,6 @@
   
     .game {
       height: 35px !important;
-    }
-  
-    .mobile-button {
-      height: 2rem !important;
     }
   
     .additional {
@@ -252,10 +252,6 @@
     .mobile-button img {
       height: 3rem;
     }
-  
-    .mobile-button {
-      height: 1.5rem !important;
-    }
   }
   
   /* Media query for smartphones with max-height 320px */
@@ -281,7 +277,7 @@
     }
   
     .mobile-button {
-      height: 1.1rem !important;
+      height: 2rem !important;
     }
   
     .key img {
@@ -303,7 +299,7 @@
   /* Media query for smartphones with max-height 480px */
   @media only screen and (max-height: 480px) {
     canvas {
-      height: 100vh;
+      height: 100vh !important;
     }
   }
   

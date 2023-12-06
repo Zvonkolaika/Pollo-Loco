@@ -1,4 +1,8 @@
 /* Global styling for the entire body */
+html{
+  height: 100%;
+  overflow: scroll;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -185,6 +189,13 @@ canvas {
   transition: 125ms ease-in-out;
 }
 
+.game-pause-button {
+  position: absolute;
+  top: 3rem;
+  right: 17rem;
+  transition: 125ms ease-in-out;
+}
+
 .game-sound-button {
   position: absolute;
   top: 3rem;
@@ -272,6 +283,8 @@ canvas {
   font-size: 15px;
   white-space: nowrap;
   letter-spacing: 1px;
+
+  
 }
 
 /* Styling for fullscreen container */
