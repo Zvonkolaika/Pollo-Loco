@@ -1,7 +1,7 @@
 // Initialize global variables
 let canvas;
 let world;
-let keyboard = new Keyboard();
+let keyboard;
 let gameIsRunning = false;
 let soundIsMute = false;
 
@@ -12,6 +12,7 @@ function start() {
     hideFirstScreen();
     hideFullInfo();
     gameIsRunning = true;
+    //game_sound.play();
 }
 
 // Function to replay the game
@@ -45,8 +46,8 @@ function init() {
     world = new World(canvas, keyboard);
     hideGameButtons();
     hideMobileButtons();
-    mobileButtonTouchEvents();
     rotateMessage();
+    initAudio();
 }
 
 // Hide the initial screen elements
@@ -79,6 +80,11 @@ function openCloseAboutGame() {
     pauseOnOff(world.pause);
 }
 
+function openCloseAboutGameMain() {
+    var question = document.getElementById("about-game");
+    question.classList.toggle("d-none");
+}
+
 function onOffPauseGame(){
     world.pause = !world.pause;
     pauseOnOff(world.pause);
@@ -88,8 +94,9 @@ function onOffPauseGame(){
 
 // Turn off game sound
 function offSound() {
-    world.muteSound();
+    muteSound();
     world.character.muteSound();
+    world.muteSoundEndboss();
     document.getElementById('on-sound').classList.add('d-none');
     document.getElementById('off-sound').classList.remove('d-none');
     soundIsMute = true;
@@ -99,8 +106,9 @@ function offSound() {
 function onSound() {
     document.getElementById('on-sound').classList.remove('d-none');
     document.getElementById('off-sound').classList.add('d-none');
-    world.unmuteSound();
+    unmuteSound();
     world.character.unmuteSound();
+    world.unmuteSoundEndboss();
     soundIsMute = false;
 }
 
@@ -230,113 +238,113 @@ function rotateMessage() {
     });
 }
 
-// Event listeners for keyboard keydown events
-window.addEventListener('keydown', (event) => {
-    // Update keyboard state based on key codes
-    if (event.keyCode == 39) {
-        keyboard.RIGHT = true;
-    }
+// // Event listeners for keyboard keydown events
+// window.addEventListener('keydown', (event) => {
+//     // Update keyboard state based on key codes
+//     if (event.keyCode == 39) {
+//         keyboard.RIGHT = true;
+//     }
 
-    if (event.keyCode == 37) {
-        keyboard.LEFT = true;
-    }
+//     if (event.keyCode == 37) {
+//         keyboard.LEFT = true;
+//     }
 
-    if (event.keyCode == 32) {
-        keyboard.SPACE = true;
-    }
+//     if (event.keyCode == 32) {
+//         keyboard.SPACE = true;
+//     }
 
-    if (event.keyCode == 38) {
-        keyboard.UP = true;
-    }
+//     if (event.keyCode == 38) {
+//         keyboard.UP = true;
+//     }
 
-    if (event.keyCode == 40) {
-        keyboard.DOWN = true;
-    }
+//     if (event.keyCode == 40) {
+//         keyboard.DOWN = true;
+//     }
 
-    if (event.keyCode == 68) {
-        keyboard.D = true;
-    }
+//     if (event.keyCode == 68) {
+//         keyboard.D = true;
+//     }
 
-    if (event.keyCode == 27) {
-        keyboard.ESC = true;
-    }
-})
+//     if (event.keyCode == 27) {
+//         keyboard.ESC = true;
+//     }
+// })
 
-// Event listeners for keyboard keyup events
-window.addEventListener('keyup', (event) => {
-    // Update keyboard state based on key codes
-    if (event.keyCode == 39) {
-        keyboard.RIGHT = false;
-    }
+// // Event listeners for keyboard keyup events
+// window.addEventListener('keyup', (event) => {
+//     // Update keyboard state based on key codes
+//     if (event.keyCode == 39) {
+//         keyboard.RIGHT = false;
+//     }
 
-    if (event.keyCode == 37) {
-        keyboard.LEFT = false;
-    }
+//     if (event.keyCode == 37) {
+//         keyboard.LEFT = false;
+//     }
 
-    if (event.keyCode == 32) {
-        keyboard.SPACE = false;
-    }
+//     if (event.keyCode == 32) {
+//         keyboard.SPACE = false;
+//     }
 
-    if (event.keyCode == 38) {
-        keyboard.UP = false;
-    }
+//     if (event.keyCode == 38) {
+//         keyboard.UP = false;
+//     }
 
-    if (event.keyCode == 40) {
-        keyboard.DOWN = false;
-    }
+//     if (event.keyCode == 40) {
+//         keyboard.DOWN = false;
+//     }
 
-    if (event.keyCode == 68) {
-        keyboard.D = false;
-    }
+//     if (event.keyCode == 68) {
+//         keyboard.D = false;
+//     }
 
-    if (event.keyCode == 27) {
-        keyboard.ESC = false;
-    }
-})
+//     if (event.keyCode == 27) {
+//         keyboard.ESC = false;
+//     }
+// })
 
-// Touch events for mobile buttons
+// // Touch events for mobile buttons
 
-function mobileButtonTouchEvents() {
-    document.getElementById('mobile-button-left').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.LEFT = true;
-    });
+// function mobileButtonTouchEvents() {
+//     document.getElementById('mobile-button-left').addEventListener('touchstart', (e) => {
+//         e.preventDefault();
+//         keyboard.LEFT = true;
+//     });
 
-    document.getElementById('mobile-button-right').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.RIGHT = true;
-    });
+//     document.getElementById('mobile-button-right').addEventListener('touchstart', (e) => {
+//         e.preventDefault();
+//         keyboard.RIGHT = true;
+//     });
 
-    document.getElementById('mobile-button-jump').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.UP = true;
-    });
+//     document.getElementById('mobile-button-jump').addEventListener('touchstart', (e) => {
+//         e.preventDefault();
+//         keyboard.UP = true;
+//     });
 
-    document.getElementById('mobile-button-bottle').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.D = true;
-    });
+//     document.getElementById('mobile-button-bottle').addEventListener('touchstart', (e) => {
+//         e.preventDefault();
+//         keyboard.D = true;
+//     });
 
-    document.getElementById('mobile-button-left').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.LEFT = false;
-    });
+//     document.getElementById('mobile-button-left').addEventListener('touchend', (e) => {
+//         e.preventDefault();
+//         keyboard.LEFT = false;
+//     });
 
-    document.getElementById('mobile-button-right').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.RIGHT = false;
-    });
+//     document.getElementById('mobile-button-right').addEventListener('touchend', (e) => {
+//         e.preventDefault();
+//         keyboard.RIGHT = false;
+//     });
 
-    document.getElementById('mobile-button-jump').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.UP = false;
-    });
+//     document.getElementById('mobile-button-jump').addEventListener('touchend', (e) => {
+//         e.preventDefault();
+//         keyboard.UP = false;
+//     });
 
-    document.getElementById('mobile-button-bottle').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.D = false;
-    });
-}
+//     document.getElementById('mobile-button-bottle').addEventListener('touchend', (e) => {
+//         e.preventDefault();
+//         keyboard.D = false;
+//     });
+// }
 
 
 

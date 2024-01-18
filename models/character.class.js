@@ -74,11 +74,11 @@ class Character extends MovableObject {
         './img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
-    walking_sound = new Audio('./audio/running.wav');
-    jumping_sound = new Audio('./audio/jump.wav');
-    snoring_sound = new Audio('./audio/snoring.wav');
-    hurting_sound = new Audio('./audio/hurt.mp3');
-    game_lost_sound = new Audio('./audio/game-lost.wav');
+    // walking_sound = new Audio('./audio/running.wav');
+    // jumping_sound = new Audio('./audio/jump.wav');
+    // snoring_sound = new Audio('./audio/snoring.wav');
+    // hurting_sound = new Audio('./audio/hurt.mp3');
+    // game_lost_sound = new Audio('./audio/game-lost.wav');
 
     constructor() {
         super().loadImage('./img/2_character_pepe/2_walk/W-21.png');
@@ -90,8 +90,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_STAYING);
         this.applyGravity();
         this.animate();
-        this.jumping_sound.volume = 0.3;
-        this.snoring_sound.volume = 1;
+        jumping_sound.volume = 0.3;
+        snoring_sound.volume = 1;
     }
      // Main animation loop for character
     animate() {
@@ -162,7 +162,7 @@ canMoveLeft() {
             }
             else {
                 this.playAnimation(this.IMAGES_STAYING);
-                this.stopSound(this.walking_sound);
+                this.stopSound(walking_sound);
             }
         }, 70);
     }
@@ -175,43 +175,43 @@ canMoveLeft() {
     deadAnimation(){
         this.playAnimation(this.IMAGES_DEAD);
         this.stopSound(world.game_sound);
-        this.game_lost_sound.play();
+        game_lost_sound.play();
     }
 
     hurtingAnimation(){
         this.playAnimation(this.IMAGES_HURTING);
-        this.hurting_sound.play();
+        hurting_sound.play();
     }
 
     jumpingAnimation(){
         this.playAnimation(this.IMAGES_JUMPING);
-        this.jumping_sound.play();
+        jumping_sound.play();
     }
 
     walkingAnimation(){
         this.playAnimation(this.IMAGES_WALKING);
-        this.stopSound(this.snoring_sound);
-        this.walking_sound.play();
+        this.stopSound(snoring_sound);
+        walking_sound.play();
     }
 
     sleepingAnimation(){
         this.playAnimation(this.IMAGES_SLEEPING);
-        this.snoring_sound.play();
+        snoring_sound.play();
     }
 
     muteSound() {
-        this.walking_sound.muted = true;
-        this.jumping_sound.muted = true;
-        this.snoring_sound.muted = true;
-        this.hurting_sound.muted = true;
-        this.game_lost_sound.muted = true;
+        walking_sound.muted = true;
+        jumping_sound.muted = true;
+        snoring_sound.muted = true;
+        hurting_sound.muted = true;
+        game_lost_sound.muted = true;
     }
 
     unmuteSound() {
-        this.walking_sound.muted = false;
-        this.jumping_sound.muted = false;
-        this.snoring_sound.muted = false;
-        this.hurting_sound.muted = false;
-        this.game_lost_sound.muted = false;
+        walking_sound.muted = false;
+        jumping_sound.muted = false;
+        snoring_sound.muted = false;
+        hurting_sound.muted = false;
+        game_lost_sound.muted = false;
     }
 }

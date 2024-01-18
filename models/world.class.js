@@ -18,30 +18,15 @@ class World {
     adjustingWidthLeft = 55;
     animationID = [];
     pause = false;
-    // Initialize audio elements
-    game_sound = new Audio('./audio/funny-country-loop-ver.wav');
-    chicken_dead_sound = new Audio('./audio/chicken-growl.wav');
-    bottle_throw_sound = new Audio('./audio/throw-bottle.wav');
-    bottle_collect_sound = new Audio('./audio/bottles-clinking.wav');
-    coin_collect_sound = new Audio('./audio/coins.wav');
-    endboss_hit_sound = new Audio('./audio/endboss-hit.wav');
-    win_sound = new Audio('./audio/win.wav');
-
+   
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.keyboard = keyboard;
-
-         // Set volume and loop properties for audio elements
-        this.game_sound.volume = 0.2;
-        this.game_sound.loop = true;
-        this.chicken_dead_sound.volume = 0.5;
-
+        this.keyboard = new Keyboard;
          // Initial setup
         this.draw();
         this.setWorld();
         this.run();
-        this.game_sound.play();
     }
     // Set the character's world reference
     setWorld() {
@@ -164,7 +149,7 @@ checkCollisions(obstacles) {
     stopEndbossSound() {
         this.level.enemies.forEach(enemy => {
             if(enemy instanceof Endboss)
-            enemy.endboss_attacking_sound.pause();
+            endboss_attacking_sound.pause();
         });
     }
 
@@ -208,7 +193,7 @@ checkCollisions(obstacles) {
     if (enemy instanceof Chicken || enemy instanceof Smallchicken) {
         this.character.jump();
         enemy.energy = 0;
-        this.chicken_dead_sound.play();
+        chicken_dead_sound.play();
     
         setTimeout(() => {
             const index = this.level.enemies.indexOf(enemy);
@@ -232,12 +217,12 @@ checkCollisions(obstacles) {
                         const hitValue = 20;
                         throwableObject.hit(hitValue);
                         enemy.hit(hitValue);
-                        this.endboss_hit_sound.play();
+                        endboss_hit_sound.play();
                         this.statusBarEndboss.setPercentage(enemy.energy);
-                        this.game_sound.pause();
-                        this.game_sound.currentTime = 0;
+                        game_sound.pause();
+                        game_sound.currentTime = 0;
                         if (enemy.energy == 0) {
-                            this.win_sound.play();
+                            win_sound.play();
                             setTimeout(() => {
                                 this.gameOver();
                             }, 5000);
@@ -259,7 +244,7 @@ checkCollisions(obstacles) {
                 if (this.character.isColliding(bottle)) {
                     // Collect bottle and play collect sound
                     this.character.collectBottle();
-                    this.bottle_collect_sound.play();
+                    bottle_collect_sound.play();
                     this.statusBarBottle.setPercentage(this.character.bottles * 20);
                     break;
                 }
@@ -278,7 +263,7 @@ checkCollisions(obstacles) {
             if (this.character.isColliding(coin)) {
                 // Collect coin and play collect sound
                 this.character.collectCoin();
-                this.coin_collect_sound.play();
+                coin_collect_sound.play();
                 this.statusBarCoin.setPercentage(this.character.coins * 4);
                 break;
             }
@@ -361,7 +346,7 @@ checkCollisions(obstacles) {
         }
         // Draw the object and its frame
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+       // mo.drawFrame(this.ctx);
 
         // Flip the image back if it was flipped
         if (mo.otherDirection) {
@@ -383,39 +368,21 @@ checkCollisions(obstacles) {
         this.ctx.restore();
     }
 
-    // Mute all sound effects
-    muteSound() {
-        this.chicken_dead_sound.muted = true;
-        this.bottle_throw_sound.muted = true;
-        this.bottle_collect_sound.muted = true;
-        this.coin_collect_sound.muted = true;
-        this.endboss_hit_sound.muted = true;
-        this.win_sound.muted = true;
-        this.game_sound.muted = true;
-        // Mute sounds for endboss
+    muteSoundEndboss() {
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
-                enemy.endboss_attacking_sound.muted = true;
-                enemy.bottle_throw_sound.muted = true;
+                endboss_attacking_sound.muted = true;
+                bottle_throw_sound.muted = true;
             }
-        });
-    }
-
-    // Unmute all sound effects
-    unmuteSound() {
-        this.chicken_dead_sound.muted = false;
-        this.bottle_throw_sound.muted = false;
-        this.bottle_collect_sound.muted = false;
-        this.coin_collect_sound.muted = false;
-        this.endboss_hit_sound.muted = false;
-        this.win_sound.muted = false;
-        this.game_sound.muted = false;
-        // Unmute sounds for endboss
+       });
+   }
+   
+    unmuteSoundEndboss() {
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
-                enemy.bottle_throw_sound.muted = false;
-                enemy.endboss_attacking_sound.muted = false;
-            }
-        });
-    }
+                 enemy.bottle_throw_sound.muted = false;
+                 enemy.endboss_attacking_sound.muted = false;
+             }
+         });
+     }
 }
