@@ -1,8 +1,9 @@
 /* Global styling for the entire body */
 html{
   height: 100%;
-  overflow: scroll;
+  overflow: hidden;
 }
+
 body {
   display: flex;
   flex-direction: column;
@@ -211,6 +212,10 @@ canvas {
   z-index: 2;
 }
 
+#mobile-buttons {
+  display: none;
+}
+
 /* Styling for mobile buttons */
 #mobile-button-left {
   position: absolute;
@@ -283,13 +288,10 @@ canvas {
   font-size: 15px;
   white-space: nowrap;
   letter-spacing: 1px;
-
-  
 }
 
-/* Styling for fullscreen container */
-#fullscreen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.full-screen-question-button {
+  left: 85% !important;
+  top: 64px !important;
 }
+

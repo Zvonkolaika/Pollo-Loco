@@ -45,7 +45,7 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     hideGameButtons();
-    hideMobileButtons();
+   // hideMobileButtons();
     rotateMessage();
     initAudio();
 }
@@ -68,9 +68,9 @@ function hideGameButtons() {
 }
 
 // Show mobile buttons
-function hideMobileButtons() {
-    document.getElementById('mobile-buttons').classList.remove('d-none');
-}
+// function hideMobileButtons() {
+//     document.getElementById('mobile-buttons').classList.remove('d-none');
+// }
 
 // Toggle display of information about the game
 function openCloseAboutGame() {
@@ -183,20 +183,27 @@ function fullScreen() {
     enterFullscreen(fullScreen);
     if (gameIsRunning) {
         document.getElementById('full-screen-game-button').classList.add('d-none');
+        document.getElementById('mobile-buttons').classList.add('d-none');
     }
     else {
         document.getElementById('full-screen-button').classList.add('d-none');
         document.getElementById('full-screen-game-button').classList.add('d-none');
+        document.getElementById('question-button').classList.add('full-screen-question-button');
+        document.getElementById('mobile-buttons').classList.add('d-none');
     }
 }
 // Show fullscreen button based on game state
 function showFullScreenButton() {
     if (gameIsRunning) {
         document.getElementById('full-screen-game-button').classList.remove('d-none');
+        document.getElementById('mobile-buttons').classList.remove('d-none');
     }
     else {
         console.log("fullscreen mode");
         document.getElementById('full-screen-button').classList.remove('d-none');
+        document.getElementById('full-screen-game-button').classList.remove('d-none');
+        document.getElementById('question-button').classList.remove('full-screen-question-button');
+        document.getElementById('mobile-buttons').classList.remove('d-none');
     }
 }
 

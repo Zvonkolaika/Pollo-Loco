@@ -1,4 +1,21 @@
+@media only screen and (max-width: 1200px){
+  #mobile-buttons {
+    display: block;
+  }
+}
 
+@media only screen and (max-height: 1200px){
+  #mobile-buttons {
+    display: block;
+  }
+}
+
+/* Hide mobile and tablet buttons for screens larger than 1400 pixels wide or tall */
+@media only screen and (min-width: 1401px), only screen and (min-height: 1401px) {
+  #mobile-buttons {
+    display: none !important;
+  }
+}
 
 /* Media query for portrait orientation and small width */
 @media only screen and (orientation: portrait) and (max-width: 600px) {
@@ -21,7 +38,7 @@
   /* Media query for landscape orientation and medium width */
   @media only screen and (max-width: 932px) and (orientation: landscape) {
     #mobile-buttons {
-      display: block;
+      display: block !important;
     }
   }
   
