@@ -1,5 +1,14 @@
+/**
+ * Represents a status bar object.
+ * @class
+ * @extends DrawableObject
+ */
 class StatusBar extends DrawableObject {
 
+    /**
+     * Represents a status bar.
+     * @constructor
+     */
     constructor() {
         super();
         this.x = 30;
@@ -7,6 +16,10 @@ class StatusBar extends DrawableObject {
         this.height = 50;
     }
 
+    /**
+     * Resolves the image index based on the percentage value.
+     * @returns {number} The image index.
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;
@@ -28,6 +41,10 @@ class StatusBar extends DrawableObject {
         }
     }
 
+    /**
+     * Moves the status bar to the specified x-coordinate.
+     * @param {number} x - The x-coordinate to move the status bar to.
+     */
     moveTo(x) {
         this.x = x;
     }

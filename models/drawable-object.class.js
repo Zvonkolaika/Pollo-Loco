@@ -1,3 +1,7 @@
+/**
+ * Represents a drawable object.
+ * @class
+ */
 class DrawableObject {
     x = 120;
     y = 230;
@@ -7,17 +11,30 @@ class DrawableObject {
     imageCache = {};
     currentImage = 0;
 
+    /**
+     * Loads an image from the specified path.
+     * @param {string} path - The path to the image file.
+     */
     loadImage(path) {
         this.img = new Image(); // this.img = document.getElementById('image') <img id="image">
         this.img.src = path;
     }
 
+    /**
+     * Draws the drawable object on the canvas context.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    /**
+     * Draws the frame of the drawable object on the canvas.
+     * Only certain types of objects are drawn with specific colors.
+     * 
+     * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
+     */
     drawFrame(ctx) {
-
         if (this instanceof Character
             || this instanceof Chicken
             || this instanceof Endboss
@@ -37,11 +54,14 @@ class DrawableObject {
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'red';
             ctx.rect(this.x, this.y, 10, 10);
-
             ctx.stroke();
         }
     }
 
+    /**
+     * Loads images into the image cache.
+     * @param {string[]} arr - An array of image paths.
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();

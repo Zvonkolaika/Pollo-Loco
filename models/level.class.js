@@ -9,7 +9,6 @@ class Level {
     bottles;
     coins;
     platforms;
-   
     level_end_x = 3690;
 
     /**

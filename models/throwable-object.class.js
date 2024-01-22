@@ -1,6 +1,15 @@
+/**
+ * Represents a throwable object in the game.
+ * @class
+ * @extends MovableObject
+ */
 class ThrowableObject extends MovableObject {
     energy = 20;
 
+    /**
+     * Array of image paths for bottle rotation animation.
+     * @type {string[]}
+     */
     IMAGES_BOTTLE_ROTATION = [
         './img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         './img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -8,6 +17,10 @@ class ThrowableObject extends MovableObject {
         './img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
     ];
 
+    /**
+     * Array of image paths for bottle splash animation.
+     * @type {string[]}
+     */
     IMAGES_BOTLLE_SPLASH = [
         './img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         './img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -17,6 +30,12 @@ class ThrowableObject extends MovableObject {
         './img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
+    /**
+     * Represents a throwable object.
+     * @constructor
+     * @param {number} x - The x-coordinate of the object.
+     * @param {number} y - The y-coordinate of the object.
+     */
     constructor(x, y) {
         super().loadImage('./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_BOTLLE_SPLASH);
@@ -28,6 +47,9 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /**
+     * Throws the object.
+     */
     throw() {
         this.speedY = 40;
         this.applyGravity();

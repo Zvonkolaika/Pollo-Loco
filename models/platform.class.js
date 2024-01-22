@@ -6,7 +6,6 @@
 class Platform extends MovableObject {
     height = 140;
     width = 340;
-
     offset = {
         top: 60,
         left: 120,
