@@ -192,6 +192,11 @@ checkCollisions(obstacles) {
 
     if (enemy instanceof Chicken || enemy instanceof Smallchicken) {
         this.character.jump();
+        this.enemiesIsDead(enemy);
+        }
+    }
+
+    enemiesIsDead(enemy) {
         enemy.energy = 0;
         chicken_dead_sound.play();
     
@@ -202,10 +207,11 @@ checkCollisions(obstacles) {
             }
         }, 1000);
     }
-}
+
 
     // Check collisions with throwable objects
     checkThrowableCollisions() {
+        const hitValue = 20;
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
                 // Iterate over throwable objects
@@ -213,8 +219,6 @@ checkCollisions(obstacles) {
                     let throwableObject = this.throwableObject[i];
                     // Check collisions with the endboss
                     if (throwableObject.isCollidingWith(enemy)) {
-
-                        const hitValue = 20;
                         throwableObject.hit(hitValue);
                         enemy.hit(hitValue);
                         endboss_hit_sound.play();
@@ -230,8 +234,16 @@ checkCollisions(obstacles) {
                     }
                 }
             }
-        }
-        );
+            if (enemy instanceof Chicken || enemy instanceof Smallchicken){
+                for (let i = 0; i < this.throwableObject.length; i++) {
+                    let throwableObject = this.throwableObject[i];
+                    if (throwableObject.isCollidingWith(enemy)) {
+                        this.enemiesIsDead(enemy);
+                        throwableObject.hit(hitValue);
+                    }
+                }
+            }
+        });
     }
 
        // Check if character can collect bottles
