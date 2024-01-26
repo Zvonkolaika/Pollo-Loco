@@ -9,9 +9,7 @@ class Endboss extends MovableObject {
     y = 50;
     speed = 10;
     attacking = false;
-    endboss_attacking_sound = new Audio('./audio/battle-background.wav');
-    bottle_throw_sound = new Audio('./audio/throw-bottle.wav');
-
+   
     /**
      * Array of image paths representing the walking animation frames for the end boss.
      * @type {string[]}
@@ -115,7 +113,7 @@ class Endboss extends MovableObject {
     hurtAnimation(){
         this.attacking = true;
         this.playAnimation(this.IMAGES_HURTING);
-        this.bottle_throw_sound.play();
+        bottle_throw_sound.play();
     }
 
     /**
@@ -127,7 +125,7 @@ class Endboss extends MovableObject {
         this.speed = 30;
         this.playAnimation(this.IMAGES_DEAD);
         this.moveOut();
-        this.stopSound(this.endboss_attacking_sound);
+        this.stopSound(endboss_attacking_sound);
     }
 
     /**
@@ -137,7 +135,7 @@ class Endboss extends MovableObject {
     attackingAnimation(){
         this.moveLeft();
         this.playAnimation(this.IMAGES_ATTACKING);
-        this.endboss_attacking_sound.play();
+        endboss_attacking_sound.play();
     }
 }
 

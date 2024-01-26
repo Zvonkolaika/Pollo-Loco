@@ -1,3 +1,8 @@
+/**
+ * Represents a movable object in the game.
+ * @class
+ * @extends DrawableObject
+ */
 class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
@@ -16,6 +21,19 @@ class MovableObject extends DrawableObject {
     ground = 160;
     canThrow = true;
 
+    /**
+     * Represents the offset of a movable object.
+     * @typedef {Object} Offset
+     * @property {number} top - The top offset.
+     * @property {number} left - The left offset.
+     * @property {number} right - The right offset.
+     * @property {number} bottom - The bottom offset.
+     */
+
+    /**
+     * The offset of the movable object.
+     * @type {Offset}
+     */
     offset = {
         top: 0,
         left: 0,
@@ -23,7 +41,9 @@ class MovableObject extends DrawableObject {
         bottom: 0
     };
 
-    // Apply gravity to the object
+    /**
+     * Applies gravity to the movable object.
+     */
     applyGravity() {
         this.startAnimation(() => {
         
@@ -38,19 +58,28 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
+    /**
+     * Sets the object on the ground.
+     */
     setOnGround() {
         this.y = this.ground;
         this.speedY = 0;
     }
 
-    // Make the object jump
+    /**
+     * Makes the object jump by setting its vertical speed and updating the last action time.
+     * @returns {void}
+     */
     jump() {
         this.speedY = 30;
         this.lastAction = new Date().getTime();
         this.onPlatform = 0;
     }
     
-    // Check if the object is above the ground
+    /**
+     * Checks if the object is above the ground.
+     * @returns {boolean} True if the object is above the ground, false otherwise.
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true; // Throwable objects should always fall 
@@ -62,25 +91,48 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    // Check if the object is currently jumping
+    /**
+     * Checks if the object is currently jumping.
+     * @returns {boolean} True if the object is jumping, false otherwise.
+     */
     isJumping() {
         return this.isAboveGround() && this.speedY > 0;
     }
 
-    // Check if the object is colliding with another object
+//   isColliding(mo) {
+//      return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+//           this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+//           this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+//            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+//   }
+
+    /**
+     * Checks if this movable object is colliding with another movable object.
+     * @param {MovableObject} mo - The other movable object to check collision with.
+     * @returns {boolean} - True if there is a collision, false otherwise.
+     */
     isColliding(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+        return this.x + this.width - this.offset.right >= mo.x + mo.offset.left &&
+        this.x + this.offset.left <= mo.x + mo.width - mo.offset.right &&    
+        this.y + this.offset.top <= mo.y + mo.height - mo.offset.bottom &&
+        this.y + this.height - this.offset.bottom >= mo.y + mo.offset.top;
     }
 
-    // Alias for isColliding
+    /**
+     * Checks if the current object is colliding with another object.
+     * @param {Object} otherObject - The other object to check collision with.
+     * @returns {boolean} - True if collision occurs, false otherwise.
+     */
     isCollidingWith(otherObject) {
         return this.isColliding(otherObject);
     }
 
-    // Handle when the object gets hit
+    /**
+     * Decreases the energy of the movable object by the specified hit value.
+     * If the energy becomes negative, it is set to 0.
+     * Otherwise, it updates the last hit timestamp.
+     * @param {number} hitValue - The value to decrease the energy by.
+     */
     hit(hitValue) {
         this.energy -= hitValue;
         if (this.energy < 0) {
@@ -90,70 +142,96 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    // Collect a bottle
+    /**
+     * Collects a bottle if the maximum number of bottles has not been reached.
+     */
     collectBottle() {
         if (this.bottles < this.maxBottles) {
             this.bottles++;
         }
     }
 
-    // Collect a coin
+    /**
+     * Increases the number of coins collected by the movable object.
+     */
     collectCoin() {
         this.coins++;
     }
     
-    // Waste a bottle
+    /**
+     * Decreases the number of bottles and sets a cooldown period before the next bottle can be thrown.
+     * @returns {boolean} Returns true if a bottle was wasted, false otherwise.
+     */
     wasteBottle() {
         if (this.bottles > 0 && this.canThrow) {
         this.bottles--;
         this.canThrow = false;
             setTimeout(() => {
                 this.canThrow = true;
-                
             }, 2000);
-            
             return true;
         } else {
             return false;
         }
     }
 
-    // Check if the object is dead
+    /**
+     * Checks if the object is dead.
+     * @returns {boolean} True if the object's energy is 0, false otherwise.
+     */
     isDead() {
         return this.energy === 0;
     }
 
-    // Check if the object is hurt
+    /**
+     * Checks if the object is currently in a hurt state.
+     * @returns {boolean} True if the object is hurt, false otherwise.
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
-    // Move the object to the left
+    /**
+     * Moves the object to the left by decreasing its x-coordinate.
+     * Updates the last action timestamp.
+     */
     moveLeft() {
         this.x -= this.speed;
         this.lastAction = new Date().getTime();
     }
 
-    // Move the object to the right
+    /**
+     * Moves the object to the right.
+     */
     moveRight() {
         this.x += this.speed;
         this.lastAction = new Date().getTime();
     }
 
-    // Move the object diagonally out
+    /**
+     * Moves the object outwards by decreasing the x-coordinate and increasing the y-coordinate.
+     */
     moveOut() {
         this.x -= this.speed;
         this.y += this.speed;
     }
 
-    // Get the current position of the object
+    /**
+     * Get the position of the movable object.
+     * @returns {number} The x-coordinate of the object's position.
+     */
     getPosition() {
         return this.x;
     }
 
-    // Play an animation based on provided images
+    /**
+     * Plays the animation for the movable object.
+     * 
+     * @param {string[]} images - An array of image paths for the animation.
+     * @returns {string|null} - The current image path or null if the images array is empty or undefined.
+     */
     playAnimation(images) {
         if (images && images.length > 0) {
             let i = this.currentImage % images.length;
@@ -165,25 +243,37 @@ class MovableObject extends DrawableObject {
         return null; // Return null or any default value if the images array is empty or undefined
     }
 
-    // Check if the object is asleep
+    /**
+     * Checks if the object is asleep based on the time passed since the last action.
+     * @returns {boolean} True if the object is asleep, false otherwise.
+     */
     isAsleep() {
         let timePassed = new Date().getTime() - this.lastAction;
         timePassed = timePassed / 1000;
         return timePassed > 5;
     }
 
-    // Stop a sound
+    /**
+     * Stops the specified sound by pausing it and resetting its current time to 0.
+     * @param {HTMLAudioElement} sound - The sound to be stopped.
+     */
     stopSound(sound) {
         sound.pause();
         sound.currentTime = 0;
     }
 
-    // Start an animation loop
+    /**
+     * Starts the animation for the movable object.
+     * @param {Function} fn - The function to be executed in each animation frame.
+     * @param {number} interval - The interval between each animation frame in milliseconds.
+     */
     startAnimation(fn, interval) {
         this.animationID.push(setInterval(fn, interval));
     }
 
-    // Stop all animation loops
+    /**
+     * Stops the animation of the movable object.
+     */
     stopAnimation() {
         this.animationID.forEach(ID => {
             clearInterval(ID);

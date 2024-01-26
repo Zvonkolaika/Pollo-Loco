@@ -64,6 +64,6 @@ class ThrowableObject extends MovableObject {
                 this.x += 10;
                 this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
             }
-        }, 50);
+        }, 75);
     }
 }
