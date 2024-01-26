@@ -50,12 +50,12 @@ class World {
         this.startAnimation(() => {
             if (this.pause) return;
             this.checkPlatformEdges(this.character);
-            this.checkCollisions(this.level.enemies);
             this.checkCollisions(this.level.platforms);
+            this.checkCollisions(this.level.enemies);
             this.checkThrowObjects();
             this.checkCollectItems();
             this.checkCollectCoins();
-        }, 100);
+        }, 1000 / 60);
 
         this.startAnimation(() => {
             if (this.pause) return;
@@ -64,8 +64,13 @@ class World {
 
         this.startAnimation(() => {
             if (this.pause) return;
-            this.checkThrowableCollisions();
+            this.checkThrowableCollisionsEndboss();
         }, 500);
+
+        this.startAnimation(() => {
+            if (this.pause) return;
+            this.checkThrowableCollisions();
+        }, 100);
     }
 
     // Start an animation interval
@@ -137,11 +142,11 @@ class World {
     checkPlatformEdges(character) {
         if (character.onPlatform) {
             let platform = character.onPlatform;
-            if ((character.x > platform.x
+            if ((character.x >= platform.x
                 + platform.width
                 - platform.offset.right
                 - character.offset.left
-                || character.x < platform.x + character.offset.left
+                || character.x <= platform.x + character.offset.left
             )) {
                 character.onPlatform = 0;
             }
@@ -211,9 +216,9 @@ class World {
     }
 
     /**
-     * Checks for collisions between throwable objects and enemies.
+     * Checks for collisions between throwable objects and the endboss.
      */
-    checkThrowableCollisions() {
+    checkThrowableCollisionsEndboss() {
         const hitValue = 20;
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss) {
@@ -235,6 +240,15 @@ class World {
                     }
                 }
             }
+        });
+    }
+
+    /**
+     * Checks for collisions between throwable objects and enemies.
+     */
+    checkThrowableCollisions() {
+        const hitValue = 20;
+        this.level.enemies.forEach(enemy => {
             if (enemy instanceof Chicken || enemy instanceof Smallchicken) {
                 for (let i = 0; i < this.throwableObject.length; i++) {
                     let throwableObject = this.throwableObject[i];
@@ -347,7 +361,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx); // Draw the object
-        mo.drawFrame(this.ctx); // Draw the objects frame
+        //mo.drawFrame(this.ctx); // Draw the objects frame
         if (mo.otherDirection) { 
             this.flipImageBack(mo); // Flip the image back if it was flipped
         }
